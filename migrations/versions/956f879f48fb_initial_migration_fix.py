@@ -1,8 +1,8 @@
-"""Initial migration
+"""Initial migration fix
 
-Revision ID: 16621b7d878f
+Revision ID: 956f879f48fb
 Revises: 
-Create Date: 2025-07-18 20:49:08.595190
+Create Date: 2025-07-18 22:29:45.844769
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '16621b7d878f'
+revision = '956f879f48fb'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,6 +25,7 @@ def upgrade():
     sa.Column('hashed_password', sa.String(length=255), nullable=False),
     sa.Column('first_name', sa.String(length=50), nullable=False),
     sa.Column('last_name', sa.String(length=50), nullable=False),
+    sa.Column('profile_image_url', sa.String(length=255), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
@@ -35,7 +36,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('seller_id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=100), nullable=False),
-    sa.Column('descript', sa.Text(), nullable=False),
+    sa.Column('description', sa.Text(), nullable=False),
     sa.Column('price', sa.Numeric(precision=10, scale=2), nullable=False),
     sa.Column('cover_image_url', sa.String(length=255), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
