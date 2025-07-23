@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.models import Review, db
 from flask_login import login_required, current_user
+from app.forms.review_form import ReviewForm
 
 review_routes = Blueprint('reviews', __name__)
 
@@ -14,24 +15,36 @@ def get_reviews(product_id):
 @review_routes.route('/products/<int:product_id>/reviews', methods=['POST'])
 @login_required
 def create_review(product_id):
-    data = request.get_json()
-    new_review = Review(
-        user_id=current_user.id,
-        product_id=product_id,
-        rating=data.get('rating'),
-        title=data.get('title'),
-        content=data.get('content')
-    )
-    db.session.add(new_review)
-    db.session.commit()
-    return jsonify(new_review.to_dict()), 201
+    form = ReviewForm()
+    form['csrf_token'].data = request.cookies.get('csrf_token')
+
+    if form.validate_on_submit():
+        new_review = Review(
+            user_id=current_user.id,
+            product_id=product_id,
+            rating=form.data['rating'],
+            title=form.data['title'],
+            content=form.data['content']
+        )
+        db.session.add(new_review)
+        db.session.commit()
+        return jsonify(new_review.to_dict()), 201
+
+    return jsonify({'errors': form.errors}), 400
+
+# Get current user's reviews
+@review_routes.route('/my-reviews', methods=['GET'])
+@login_required
+def get_my_reviews():
+    reviews = Review.query.filter_by(user_id=current_user.id).all()
+    return jsonify([review.to_dict() for review in reviews]), 200
+
 
 # Update an existing review by ID
 @review_routes.route('/reviews/<int:review_id>', methods=['PUT'])
 @login_required
 def update_review(review_id):
     review = Review.query.get_or_404(review_id)
-    # Ensure the review belongs to the current user
     if review.user_id != current_user.id:
         return jsonify({'error': 'Unauthorized'}), 403
     
@@ -45,9 +58,9 @@ def update_review(review_id):
 
 # Delete a review by ID
 @review_routes.route('/reviews/<int:review_id>', methods=['DELETE'])
+@login_required
 def delete_review(review_id):
     review = Review.query.get_or_404(review_id)
-    # Ensure the review belongs to the current user
     if review.user_id != current_user.id:
         return jsonify({'error': 'Unauthorized'}), 403
     
