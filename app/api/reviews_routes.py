@@ -12,6 +12,7 @@ def get_reviews(product_id):
 
 # Create a new review for a specific product
 @review_routes.route('/products/<int:product_id>/reviews', methods=['POST'])
+@login_required
 def create_review(product_id):
     data = request.get_json()
     new_review = Review(
@@ -24,3 +25,20 @@ def create_review(product_id):
     db.session.add(new_review)
     db.session.commit()
     return jsonify(new_review.to_dict()), 201
+
+# Update an existing review by ID
+@review_routes.route('/reviews/<int:review_id>', methods=['PUT'])
+@login_required
+def update_review(review_id):
+    review = Review.query.get_or_404(review_id)
+    # Ensure the review belongs to the current user
+    if review.user_id != current_user.id:
+        return jsonify({'error': 'Unauthorized'}), 403
+    
+    data = request.get_json()
+    review.rating = data.get('rating', review.rating)
+    review.title = data.get('title', review.title)
+    review.content = data.get('content', review.content)
+
+    db.session.commit()
+    return jsonify(review.to_dict()), 200
