@@ -42,3 +42,15 @@ def update_review(review_id):
 
     db.session.commit()
     return jsonify(review.to_dict()), 200
+
+# Delete a review by ID
+@review_routes.route('/reviews/<int:review_id>', methods=['DELETE'])
+def delete_review(review_id):
+    review = Review.query.get_or_404(review_id)
+    # Ensure the review belongs to the current user
+    if review.user_id != current_user.id:
+        return jsonify({'error': 'Unauthorized'}), 403
+    
+    db.session.delete(review)
+    db.session.commit()
+    return jsonify({'message': 'Review deleted successfully'}), 204
