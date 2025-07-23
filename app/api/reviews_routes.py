@@ -1,0 +1,26 @@
+from flask import Blueprint, request, jsonify
+from app.models import Review, db
+from flask_login import login_required, current_user
+
+review_routes = Blueprint('reviews', __name__)
+
+# Get all reviews for a specific product
+@review_routes.route('/products/<int:product_id>/reviews', methods=['GET'])
+def get_reviews(product_id):
+    reviews = Review.query.filter_by(product_id=product_id).all()
+    return jsonify([review.to_dict() for review in reviews]), 200
+
+# Create a new review for a specific product
+@review_routes.route('/products/<int:product_id>/reviews', methods=['POST'])
+def create_review(product_id):
+    data = request.get_json()
+    new_review = Review(
+        user_id=current_user.id,
+        product_id=product_id,
+        rating=data.get('rating'),
+        title=data.get('title'),
+        content=data.get('content')
+    )
+    db.session.add(new_review)
+    db.session.commit()
+    return jsonify(new_review.to_dict()), 201
