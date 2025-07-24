@@ -45,7 +45,7 @@ def get_my_reviews():
 def update_review(review_id):
     review = Review.query.get_or_404(review_id)
     if review.user_id != current_user.id:
-        return jsonify({'error': 'Unauthorized'}), 403
+        return {'error': 'Unauthorized'}, 403
 
     form = ReviewForm()
     form['csrf_token'].data = request.cookies.get('csrf_token')
@@ -55,10 +55,9 @@ def update_review(review_id):
         review.title = form.data['title']
         review.content = form.data['content']
         db.session.commit()
-        return jsonify(review.to_dict()), 200
+        return review.to_dict(), 200
 
-    return jsonify({'errors': form.errors}), 400
-
+    return {'errors': form.errors}, 400
 
 # Delete a review by ID
 @review_routes.route('/reviews/<int:review_id>', methods=['DELETE'])
