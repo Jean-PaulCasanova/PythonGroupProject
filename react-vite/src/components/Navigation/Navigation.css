@@ -1,3 +1,23 @@
-.profile-dropdown {
+
+/* OG CODE */
+
+/* .profile-dropdown {
   position: absolute;
+} */
+
+
+.nav-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  padding: 0 1rem;
+}
+
+.nav-list li {
+  margin: 0 0.5rem;
+}
+
+.create-product-link {
+  margin-left: auto;
 }
