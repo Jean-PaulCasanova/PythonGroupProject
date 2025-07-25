@@ -22,3 +22,15 @@ class Product(db.Model):
     reviews = db.relationship("Review", back_populates="product", cascade="all, delete-orphan")
     cart_items = db.relationship("ShoppingCart", back_populates="product", cascade="all, delete-orphan")
     wish_list_items = db.relationship("Wishlist", back_populates="product", cascade="all, delete-orphan")
+
+    def to_dict(self):
+        return {
+        'id': self.id,
+        'seller_id': self.seller_id,
+        'title': self.title,
+        'description': self.description,
+        'price': str(self.price),
+        'cover_image_url': self.cover_image_url,
+        'created_at': self.created_at.isoformat(),
+        'updated_at': self.updated_at.isoformat()
+    }
