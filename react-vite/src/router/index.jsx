@@ -32,6 +32,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
+import WishlistPage from '../components/WishlistPage';
 import ProductFormPage from '../components/ProductFormPage';
 import ProductManagePage from '../components/ProductManage/ProductManagePage';
 import ProductShowPage from '../components/ProductShowPage/ProductShowPage';
@@ -52,6 +53,10 @@ export const router = createBrowserRouter([
       {
         path: "signup",
         element: <SignupFormPage />,
+      },
+      {
+        path: 'wishlist', 
+        element: <WishlistPage />,
       },
       {
         path: "products/new",
