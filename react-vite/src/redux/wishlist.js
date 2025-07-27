@@ -1,31 +1,28 @@
-// src/redux/wishlist.js
+
 
 // Action Types
-const LOAD_WISHLIST = 'wishlist/loadWishlist';
+const SET_WISHLIST = 'wishlist/setWishlist';
 
 // Action Creators
-const loadWishlist = (wishlistItems) => ({
-  type: LOAD_WISHLIST,
-  wishlistItems,
+const setWishlist = (wishlist) => ({
+  type: SET_WISHLIST,
+  wishlist,
 });
 
 // Thunk
 export const fetchWishlist = () => async (dispatch) => {
-  const response = await fetch('/api/wishlist');
-
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(loadWishlist(data));
-  } else {
-    // Handle errors if needed
+  const res = await fetch('/api/wishlist');
+  if (res.ok) {
+    const data = await res.json();
+    dispatch(setWishlist(data));
   }
 };
 
 // Reducer
 const wishlistReducer = (state = [], action) => {
   switch (action.type) {
-    case LOAD_WISHLIST:
-      return action.wishlistItems;
+    case SET_WISHLIST:
+      return action.wishlist;
     default:
       return state;
   }
