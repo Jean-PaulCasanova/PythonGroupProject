@@ -1,0 +1,31 @@
+.landing-container {
+  padding: 2rem;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  text-align: center;
+  transition: box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-thumbnail {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.product-link {
+  text-decoration: none;
+  color: inherit;
+}
