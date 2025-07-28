@@ -1,3 +1,4 @@
+// react-vite/src/redux/wishlist.js
 import { csrfFetch } from './csrf'
 
 // Action Types
@@ -9,15 +10,43 @@ const setWishlist = (wishlist) => ({
   wishlist,
 });
 
-// Thunk
+// Thunks
+
 export const fetchWishlist = () => async (dispatch) => {
   const res = await fetch('/api/wishlist/');
   if (res.ok) {
     const data = await res.json();
     dispatch(setWishlist(data));
   }
-  //const errors = await res.json()
-  //console.log(errors)
+};
+
+export const addToWishlist = (productId) => async (dispatch, getState) => {
+  const res = await csrfFetch(`/api/wishlist/${productId}`, {
+    method: 'POST',
+  });
+
+  if (res.ok) {
+    // Refresh wishlist after add
+    dispatch(fetchWishlist());
+  }
+};
+
+export const removeFromWishlist = (productId) => async (dispatch, getState) => {
+  const res = await csrfFetch(`/api/wishlist/${productId}`, {
+    method: 'DELETE',
+  });
+
+  if (res.ok) {
+    // Refresh wishlist after removal
+    dispatch(fetchWishlist());
+  }
+};
+
+// Selector
+export const selectWishlist = (state) => state.wishlist;
+
+export const isProductWishlisted = (productId) => (state) => {
+  return state.wishlist.some((item) => item.productId === productId);
 };
 
 // Reducer

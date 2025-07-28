@@ -16,3 +16,19 @@
     border-radius: 0.5rem;
     text-align: center;
   }
+
+  .remove-wishlist-button {
+    background-color: transparent;
+    border: 1px solid crimson;
+    color: crimson;
+    padding: 6px 10px;
+    margin-top: 6px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+  }
+  
+  .remove-wishlist-button:hover {
+    background-color: crimson;
+    color: white;
+  }

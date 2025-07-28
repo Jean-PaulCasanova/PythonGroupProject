@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchWishlist } from '../../redux/wishlist';
+import { fetchWishlist, removeFromWishlist } from '../../redux/wishlist';
 import './Wishlist.css';
 
 export default function WishlistPage() {
@@ -13,6 +13,10 @@ export default function WishlistPage() {
       dispatch(fetchWishlist());
     }
   }, [dispatch, user]);
+
+  const handleRemove = (productId) => {
+    dispatch(removeFromWishlist(productId));
+  };
 
   if (!user) return <p>You must be logged in to view your wishlist.</p>;
   if (!wishlist) return <p>Loading wishlist...</p>;
@@ -29,6 +33,12 @@ export default function WishlistPage() {
               <img src={item.coverImageUrl} alt={item.title} />
               <h3>{item.title}</h3>
               <p>${item.price}</p>
+              <button
+                className="remove-wishlist-button"
+                onClick={() => handleRemove(item.productId)}
+              >
+                ❌ Remove
+              </button>
             </li>
           ))}
         </ul>
