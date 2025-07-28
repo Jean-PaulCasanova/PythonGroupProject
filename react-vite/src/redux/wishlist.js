@@ -1,4 +1,4 @@
-
+import { csrfFetch } from './csrf'
 
 // Action Types
 const SET_WISHLIST = 'wishlist/setWishlist';
@@ -16,6 +16,8 @@ export const fetchWishlist = () => async (dispatch) => {
     const data = await res.json();
     dispatch(setWishlist(data));
   }
+  const errors = await res.json()
+  console.log(errors)
 };
 
 // Reducer
