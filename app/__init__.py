@@ -34,7 +34,7 @@ db.init_app(app)
 Migrate(app, db)
 
 # Application Security
-CORS(app)
+CORS(app, origins=["http://localhost:5173"])
 
 
 # Since we are deploying with Docker and Flask,
@@ -60,6 +60,8 @@ def inject_csrf_token(response):
         samesite='Strict' if os.environ.get(
             'FLASK_ENV') == 'production' else None,
         httponly=True)
+    response.headers.add("Access-Control-Allow-Credentials", "true")
+    #response.headers.add("Access-Control-Allow-Origin", "http://localhost:5173")
     return response
 
 
@@ -86,6 +88,10 @@ def react_root(path):
     if path == 'favicon.ico':
         return app.send_from_directory('public', 'favicon.ico')
     return app.send_static_file('index.html')
+
+@app.route("/api/csrf/restore", methods=["GET"])
+def restore_csrf():
+    return {"csrf_token": generate_csrf()}
 
 
 @app.errorhandler(404)

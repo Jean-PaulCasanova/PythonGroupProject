@@ -3,6 +3,7 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import WishlistPage from '../components/WishlistPage';
 import Layout from './Layout';
+import ProtectedRoute from './ProtectedRoute'; // this is for wishlist only showing witha logged in user
 
 export const router = createBrowserRouter([
   {
@@ -21,8 +22,13 @@ export const router = createBrowserRouter([
         element: <SignupFormPage />,
       },
       {
-        path: 'wishlist', 
-        element: <WishlistPage />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "wishlist",
+            element: <WishlistPage />,
+          },
+        ],
       },
     ],
   },
