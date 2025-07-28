@@ -11,13 +11,13 @@ const setWishlist = (wishlist) => ({
 
 // Thunk
 export const fetchWishlist = () => async (dispatch) => {
-  const res = await fetch('/api/wishlist');
+  const res = await fetch('/api/wishlist/');
   if (res.ok) {
     const data = await res.json();
     dispatch(setWishlist(data));
   }
-  const errors = await res.json()
-  console.log(errors)
+  //const errors = await res.json()
+  //console.log(errors)
 };
 
 // Reducer

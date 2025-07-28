@@ -6,9 +6,9 @@ wishlist_routes = Blueprint("wishlist", __name__)
 
 # GET /api/wishlist — Return all products in current user's wishlist
 @wishlist_routes.route("/", methods=["GET"])
-#@login_required
+@login_required
 def get_wishlist():
-    wishlist_items = Wishlist.query.filter_by(user_id=2).all() #id hardcoded
+    wishlist_items = Wishlist.query.filter_by(user_id=current_user.id).all()
     return jsonify([
         {
             "id": item.id,
