@@ -20,3 +20,17 @@ class Review(db.Model):
 
     user = db.relationship("User", back_populates="reviews")
     product = db.relationship("Product", back_populates="reviews")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'product_id': self.product_id,
+            'rating': self.rating,
+            'title': self.title,
+            'content': self.content,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat(),
+            'user': self.user.to_dict() if self.user else None,
+            'product': self.product.to_dict() if self.product else None
+        }

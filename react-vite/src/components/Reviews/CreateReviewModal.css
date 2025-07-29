@@ -1,0 +1,119 @@
+.review-modal-container {
+    border-radius: 10px;
+    width: 400px;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+  
+  .review-header-div {
+    display: flex;
+    justify-content: center;
+    height: 40px;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .review-error-container {
+    display: flex;
+    justify-content: center;
+    color: #d9534f;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: center;
+    padding: 5px 10px;
+    border: 1px solid #f5c6cb;
+    background-color: #f8d7da;
+    border-radius: 4px;
+  }
+  
+  .textarea-div {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+  }
+  
+  .text {
+    width: 100%;
+    max-width: 350px;
+    height: 80px;
+    border: 2px solid #b0b0b0;
+    border-radius: 6px;
+    padding: 8px;
+    resize: none;
+    font-size: 14px;
+    outline: none;
+  }
+  
+  .text:focus {
+    border-color: #d98d9a;
+  }
+  
+  .stars-div {
+    display: flex;
+    justify-content: center;
+    margin: 12px 0 4px;
+  }
+  
+  .stars-label {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 10px;
+  }
+  
+  .filled-star {
+    color: #ffc107;
+    cursor: pointer;
+    font-size: 24px;
+    transition: color 0.2s ease-in-out;
+  }
+  
+  .empty-star {
+    color: #e4e5e9;
+    cursor: pointer;
+    font-size: 24px;
+    transition: color 0.2s ease-in-out;
+  }
+  
+  .filled-star:hover,
+  .empty-star:hover {
+    color: #ff9f00;
+  }
+  
+  .button-div {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .submit-review-button {
+    height: 38px;
+    background-color: #d98d9a;
+    color: white;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .submit-review-button:hover {
+    background-color: #c07485;
+  }
+  
+  .submit-review-button:disabled {
+    background-color: #b0b0b0;
+    cursor: not-allowed;
+  }
+  
+  .submit-review-button:disabled:hover {
+    background-color: #b0b0b0;
+  }
+  

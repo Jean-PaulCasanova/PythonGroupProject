@@ -470,6 +470,11 @@ def react_root(path):
     return app.send_static_file('index.html')
 
 # Handle 404s with React app
+@app.route("/api/csrf/restore", methods=["GET"])
+def restore_csrf():
+    return {"csrf_token": generate_csrf()}
+
+
 @app.errorhandler(404)
 def not_found(e):
     return app.send_static_file('index.html')

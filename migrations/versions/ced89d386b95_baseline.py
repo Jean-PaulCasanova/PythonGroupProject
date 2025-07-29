@@ -1,16 +1,8 @@
-<<<<<<<< HEAD:migrations/versions/e1016d7c014d_add_product.py
-"""add product
-
-Revision ID: e1016d7c014d
-Revises: 
-Create Date: 2025-07-19 20:38:08.124618
-========
 """baseline
 
-Revision ID: 6fbd452d6d3c
+Revision ID: ced89d386b95
 Revises: 
-Create Date: 2025-07-28 20:47:05.552368
->>>>>>>> ce7232b5cfe4937afb43f78454a11ccda30ad2be:migrations/versions/6fbd452d6d3c_baseline.py
+Create Date: 2025-07-28 20:40:42.263283
 
 """
 from alembic import op
@@ -18,11 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-<<<<<<<< HEAD:migrations/versions/e1016d7c014d_add_product.py
-revision = 'e1016d7c014d'
-========
-revision = '6fbd452d6d3c'
->>>>>>>> ce7232b5cfe4937afb43f78454a11ccda30ad2be:migrations/versions/6fbd452d6d3c_baseline.py
+revision = 'ced89d386b95'
 down_revision = None
 branch_labels = None
 depends_on = None

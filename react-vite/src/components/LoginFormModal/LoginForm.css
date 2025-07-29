@@ -1,0 +1,113 @@
+.login-modal-container {
+    border: 2px solid black;
+    border-radius: 12px;
+    width: 350px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .error-container {
+    color: #d9534f;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .login-modal-container input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  .login-modal-container input:focus {
+    border-color: black;
+    outline: none;
+  }
+  
+  .login-button,
+  .demo-user-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .login-button {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: #ff6f61;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .login-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .login-button:hover {
+    background-color: #f84d3e;
+  }
+  
+  .demo-user-div {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .demo-user-button {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: white;
+    color: #ff6f61;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    text-decoration: underline;
+  }
+  
+  .demo-user-button:hover {
+    color: grey;
+  }
+  
+  #login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .email,
+  .password {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .log-in-button-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .demo-user-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  

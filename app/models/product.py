@@ -55,6 +55,18 @@ class Product(db.Model):
 
     def to_dict(self):
         return {
+        'id': self.id,
+        'seller_id': self.seller_id,
+        'title': self.title,
+        'description': self.description,
+        'price': str(self.price),
+        'cover_image_url': self.cover_image_url,
+        'created_at': self.created_at.isoformat(),
+        'updated_at': self.updated_at.isoformat()
+    }
+
+    def to_dict(self):
+        return {
             "id": self.id,
             "seller_id": self.seller_id,
             "title": self.title,
