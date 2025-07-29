@@ -20,7 +20,7 @@ export const fetchWishlist = () => async (dispatch) => {
   }
 };
 
-export const addToWishlist = (productId) => async (dispatch, getState) => {
+export const addToWishlist = (productId) => async (dispatch) => {
   const res = await csrfFetch(`/api/wishlist/${productId}`, {
     method: 'POST',
   });
@@ -31,7 +31,7 @@ export const addToWishlist = (productId) => async (dispatch, getState) => {
   }
 };
 
-export const removeFromWishlist = (productId) => async (dispatch, getState) => {
+export const removeFromWishlist = (productId) => async (dispatch) => {
   const res = await csrfFetch(`/api/wishlist/${productId}`, {
     method: 'DELETE',
   });
