@@ -35,7 +35,7 @@ function ProductUpdatePage() {
 
     try {
       const res = await fetch(`http://localhost:5000/api/products/${productId}`, {
-        method: "PATCH",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify(updatedData),

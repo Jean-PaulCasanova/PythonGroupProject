@@ -77,7 +77,9 @@ import SignupFormPage from '../components/SignupFormPage';
 import ProductFormPage from '../components/ProductFormPage';
 import ProductManagePage from '../components/ProductManage/ProductManagePage';
 import ProductShowPage from '../components/ProductShowPage/ProductShowPage';
-import ProductUpdatePage from '../components/ProductUpdatePage/ProductUpdatePage'; 
+import ProductUpdatePage from '../components/ProductUpdatePage/ProductUpdatePage';
+import ShoppingCart from '../components/ShoppingCart/ShoppingCart';
+import ProductList from '../components/ProductList/ProductList';
 import Layout from './Layout';
 
 export const router = createBrowserRouter([
@@ -111,6 +113,14 @@ export const router = createBrowserRouter([
       {
         path: "products/:productId/edit",
         element: <ProductUpdatePage />,
+      },
+      {
+        path: "cart",
+        element: <ShoppingCart />,
+      },
+      {
+        path: "products",
+        element: <ProductList />,
       },
     ],
   },

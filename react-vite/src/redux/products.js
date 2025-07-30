@@ -16,7 +16,7 @@ export const fetchProducts = () => async (dispatch) => {
   const res = await fetch("http://localhost:5000/api/products");
   if (res.ok) {
     const data = await res.json();
-    dispatch(setProducts(data.products)); // Adjust based on your response shape
+    dispatch(setProducts(data)); // API returns array directly, not wrapped in products property
   }
 };
 
@@ -35,19 +35,27 @@ export const createProduct = (payload) => async (dispatch) => {
   }
 };
 
-const initialState = {};
+const initialState = {
+  products: [],
+  loading: false,
+  error: null
+};
 
 export default function productsReducer(state = initialState, action) {
   switch (action.type) {
     case SET_PRODUCTS: {
-      const newState = {};
-      action.products.forEach((product) => {
-        newState[product.id] = product;
-      });
-      return newState;
+      return {
+        ...state,
+        products: action.products,
+        loading: false,
+        error: null
+      };
     }
     case ADD_PRODUCT:
-      return { ...state, [action.product.id]: action.product };
+      return {
+        ...state,
+        products: [...state.products, action.product]
+      };
     default:
       return state;
   }

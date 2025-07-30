@@ -67,17 +67,30 @@
 
 
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchCart } from "../../redux/cart";
 import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
 
 function Navigation() {
   const sessionUser = useSelector((state) => state.session.user);
+  const { item_count } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (sessionUser) {
+      dispatch(fetchCart());
+    }
+  }, [dispatch, sessionUser]);
 
   return (
     <ul className="nav-list">
       <li>
         <NavLink to="/">Home</NavLink>
+      </li>
+      <li>
+        <NavLink to="/products">🛍️ Shop</NavLink>
       </li>
 
       {sessionUser && (
@@ -87,6 +100,11 @@ function Navigation() {
           </li>
           <li className="manage-product-link">
             <NavLink to="/products/manage">Manage Products</NavLink>
+          </li>
+          <li className="cart-link">
+            <NavLink to="/cart">
+              🛒 Cart {item_count > 0 && <span className="cart-count">({item_count})</span>}
+            </NavLink>
           </li>
         </>
       )}
