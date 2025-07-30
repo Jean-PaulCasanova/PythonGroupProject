@@ -37,6 +37,7 @@ import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import reviewsReducer from "./reviewsSlice";
 import wishlistReducer from "./wishlist"
+import productsReducer from "./products"
 
 const rootReducer = combineReducers({
   session: sessionReducer,
