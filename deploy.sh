@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Deployment script for Python Group Project
-# This script prepares the application for deployment on Render or similar platforms
+# Prepares the application for deployment on Render or similar platforms
 
-echo "🚀 Starting deployment preparation..."
+echo "🚀 Starting deployment prep..."
 
 # Check if we're in the right directory
 if [ ! -f "Dockerfile" ]; then
@@ -70,4 +70,4 @@ echo "7. Create a PostgreSQL database on Render"
 echo "8. Deploy!"
 echo ""
 echo "🌐 Your app will be available at: https://your-service-name.onrender.com"
-echo "✨ Deployment preparation complete!"
+echo "✨ Deployment prep complete!"

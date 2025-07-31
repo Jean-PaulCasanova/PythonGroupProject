@@ -1,5 +1,5 @@
 # Render Blueprint for Python Group Project
-# This file automates the deployment of your Flask app with PostgreSQL
+# Deployment configuration for Flask app with PostgreSQL
 
 services:
   # Web Service - Flask Application
