@@ -35,6 +35,7 @@ import SignupFormPage from '../components/SignupFormPage';
 import ProductFormPage from '../components/ProductFormPage';
 import ProductManagePage from '../components/ProductManage/ProductManagePage';
 import ProductShowPage from '../components/ProductShowPage/ProductShowPage';
+import WishlistPage from '../components/WishlistPage/WishlistPage';
 import Layout from './Layout';
 import ProtectedRoute from './ProtectedRoute'; // this is for wishlist only showing witha logged in user
 
@@ -65,6 +66,15 @@ export const router = createBrowserRouter([
       {
         path: "products/:productId",
         element: <ProductShowPage />,
+      },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "wishlist",
+            element: <WishlistPage />,
+          },
+        ],
       },
     ],
   },
