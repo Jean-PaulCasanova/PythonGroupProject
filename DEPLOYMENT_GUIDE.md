@@ -94,7 +94,7 @@ This Flask application with React frontend is production-ready with:
 ### Health Checks:
 - **Endpoint**: `/` (homepage)
 - **Expected**: 200 OK response
-- **Database**: Automatic connection testing
+- **Database**: Connection testing
 
 ### Common Issues:
 1. **Build Failures**: Check Dockerfile and requirements.txt
@@ -111,7 +111,7 @@ This Flask application with React frontend is production-ready with:
 ### Current Configuration:
 - **Free Tier**: 512MB RAM, shared CPU
 - **Database**: PostgreSQL with 1GB storage
-- **Automatic Sleep**: After 15 minutes of inactivity
+- **Sleep**: After 15 minutes of inactivity
 - **Cold Start**: ~30 seconds wake-up time
 
 ### Upgrade Options:
