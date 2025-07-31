@@ -80,6 +80,7 @@ import ProductShowPage from '../components/ProductShowPage/ProductShowPage';
 import ProductUpdatePage from '../components/ProductUpdatePage/ProductUpdatePage';
 import ShoppingCart from '../components/ShoppingCart/ShoppingCart';
 import ProductList from '../components/ProductList/ProductList';
+import WishlistPage from '../components/WishlistPage/WishlistPage';
 import Layout from './Layout';
 
 export const router = createBrowserRouter([
@@ -88,7 +89,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <h1>Welcome!</h1>,
+        element: <ProductList />,
       },
       {
         path: "login",
@@ -121,6 +122,10 @@ export const router = createBrowserRouter([
       {
         path: "products",
         element: <ProductList />,
+      },
+      {
+        path: "wishlist",
+        element: <WishlistPage />,
       },
     ],
   },

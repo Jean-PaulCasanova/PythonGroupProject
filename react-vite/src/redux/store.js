@@ -37,11 +37,15 @@ import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import productsReducer from "./products";
 import cartReducer from "./cart";
+import reviewsReducer from "./reviewsSlice";
+import wishlistReducer from "./wishlist";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   products: productsReducer,
   cart: cartReducer,
+  reviews: reviewsReducer,
+  wishlist: wishlistReducer,
 });
 
 let enhancer;

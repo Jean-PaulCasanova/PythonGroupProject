@@ -13,7 +13,7 @@ const addProduct = (product) => ({
 
 // THUNKS
 export const fetchProducts = () => async (dispatch) => {
-  const res = await fetch("http://localhost:5000/api/products");
+  const res = await fetch("http://localhost:5002/api/products");
   if (res.ok) {
     const data = await res.json();
     dispatch(setProducts(data)); // API returns array directly, not wrapped in products property
@@ -21,7 +21,7 @@ export const fetchProducts = () => async (dispatch) => {
 };
 
 export const createProduct = (payload) => async (dispatch) => {
-  const res = await fetch("http://localhost:5000/api/products", {
+  const res = await fetch("http://localhost:5002/api/products", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",

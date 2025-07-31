@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchProducts } from '../../redux/products';
 import { addToCart } from '../../redux/cart';
+import { addToWishlist } from '../../redux/wishlist';
 import './ProductList.css';
 
 function ProductList() {
@@ -10,6 +11,7 @@ function ProductList() {
   const { products, loading, error } = useSelector((state) => state.products);
   const { user } = useSelector((state) => state.session);
   const [addingToCart, setAddingToCart] = useState({});
+  const [addingToWishlist, setAddingToWishlist] = useState({});
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -30,6 +32,24 @@ function ProductList() {
       alert('Failed to add product to cart. Please try again.');
     } finally {
       setAddingToCart(prev => ({ ...prev, [productId]: false }));
+    }
+  };
+
+  const handleAddToWishlist = async (productId) => {
+    if (!user) {
+      alert('Please log in to add items to your wishlist.');
+      return;
+    }
+
+    try {
+      setAddingToWishlist(prev => ({ ...prev, [productId]: true }));
+      await dispatch(addToWishlist(productId));
+      alert('Product added to wishlist!');
+    } catch (error) {
+      console.error('Failed to add to wishlist:', error);
+      alert('Failed to add product to wishlist. Please try again.');
+    } finally {
+      setAddingToWishlist(prev => ({ ...prev, [productId]: false }));
     }
   };
 
@@ -71,11 +91,12 @@ function ProductList() {
         <div className="products-grid">
           {products.map((product) => (
             <div key={product.id} className="product-card">
-              {product.cover_image_url && (
-                <div className="product-image">
-                  <img src={product.cover_image_url} alt={product.title} />
-                </div>
-              )}
+              <div className="product-image">
+                <img 
+                  src={product.cover_image_url || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f0f0f0'/%3E%3Ctext x='100' y='100' text-anchor='middle' dy='0.3em' font-family='Arial' font-size='14' fill='%23666'%3ENo Image%3C/text%3E%3C/svg%3E"} 
+                  alt={product.title} 
+                />
+              </div>
               
               <div className="product-info">
                 <h3 className="product-name">
@@ -90,24 +111,38 @@ function ProductList() {
                 
                 <div className="product-actions">
                   <Link 
-                    to={`/products/${product.id}`} 
+                    to={`/products/${product.id}#reviews`} 
                     className="btn btn-secondary"
                   >
-                    View Details
+                    Reviews
                   </Link>
                   
                   {user && (
-                    <button
-                      onClick={() => handleAddToCart(product.id)}
-                      disabled={addingToCart[product.id]}
-                      className="btn btn-primary add-to-cart-btn"
-                    >
-                      {addingToCart[product.id] ? (
-                        <>🔄 Adding...</>
-                      ) : (
-                        <>🛒 Add to Cart</>
-                      )}
-                    </button>
+                    <>
+                      <button
+                        onClick={() => handleAddToCart(product.id)}
+                        disabled={addingToCart[product.id]}
+                        className="btn btn-primary add-to-cart-btn"
+                      >
+                        {addingToCart[product.id] ? (
+                          <>🔄 Adding...</>
+                        ) : (
+                          <>🛒 Add to Cart</>
+                        )}
+                      </button>
+                      
+                      <button
+                        onClick={() => handleAddToWishlist(product.id)}
+                        disabled={addingToWishlist[product.id]}
+                        className="btn btn-outline-danger"
+                      >
+                        {addingToWishlist[product.id] ? (
+                          <>🔄 Adding...</>
+                        ) : (
+                          <>❤️ Wishlist</>
+                        )}
+                      </button>
+                    </>
                   )}
                   
                   {!user && (

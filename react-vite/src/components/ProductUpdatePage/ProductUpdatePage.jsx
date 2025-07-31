@@ -12,7 +12,7 @@ function ProductUpdatePage() {
 
   useEffect(() => {
     // Load product to edit
-    fetch(`http://localhost:5000/api/products/${productId}`)
+    fetch(`http://localhost:5002/api/products/${productId}`)
       .then((res) => res.json())
       .then((product) => {
         setTitle(product.title || "");
@@ -34,7 +34,7 @@ function ProductUpdatePage() {
     };
 
     try {
-      const res = await fetch(`http://localhost:5000/api/products/${productId}`, {
+      const res = await fetch(`http://localhost:5002/api/products/${productId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

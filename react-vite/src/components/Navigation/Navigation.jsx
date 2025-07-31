@@ -101,6 +101,11 @@ function Navigation() {
           <li className="manage-product-link">
             <NavLink to="/products/manage">Manage Products</NavLink>
           </li>
+          <li className="wishlist-link">
+            <NavLink to="/wishlist">
+              ❤️ Wishlist
+            </NavLink>
+          </li>
           <li className="cart-link">
             <NavLink to="/cart">
               🛒 Cart {item_count > 0 && <span className="cart-count">({item_count})</span>}

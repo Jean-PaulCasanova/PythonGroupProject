@@ -390,6 +390,8 @@ from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.product_routes import product_routes
 from .api.cart_routes import cart_routes
+from .api.reviews_routes import review_routes
+from .api.wishlist_routes import wishlist_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -414,6 +416,8 @@ app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(product_routes, url_prefix='/api/products')
 app.register_blueprint(cart_routes, url_prefix='/api/cart')
+app.register_blueprint(review_routes, url_prefix='/api')
+app.register_blueprint(wishlist_routes, url_prefix='/api/wishlist')
 
 # Initialize database and migration
 db.init_app(app)
@@ -440,7 +444,7 @@ def inject_csrf_token(response):
         generate_csrf(),
         secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
         samesite='Strict' if os.environ.get('FLASK_ENV') == 'production' else None,
-        httponly=True
+        httponly=False
     )
     return response
 

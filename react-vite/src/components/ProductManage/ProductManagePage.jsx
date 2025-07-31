@@ -36,16 +36,14 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import "./ProductManagePage.css"; 
 
 function ProductManagePage() {
   const [products, setProducts] = useState([]);
-  const user = useSelector((state) => state.session.user);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/products/manage", {
+    fetch("http://localhost:5002/api/products/manage", {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -56,15 +54,27 @@ function ProductManagePage() {
     const confirmed = window.confirm("Are you sure you want to delete this product?");
     if (!confirmed) return;
 
-    const res = await fetch(`http://localhost:5000/api/products/${productId}`, {
-      method: "DELETE",
-      credentials: "include",
-    });
+    try {
+      console.log(`Attempting to delete product ${productId}`);
+      const res = await fetch(`http://localhost:5002/api/products/${productId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
 
-    if (res.ok) {
-      setProducts((prev) => prev.filter((p) => p.id !== productId));
-    } else {
-      console.error("Failed to delete product");
+      console.log(`Delete response status: ${res.status}`);
+      
+      if (res.ok) {
+        console.log("Product deleted successfully");
+        setProducts((prev) => prev.filter((p) => p.id !== productId));
+        alert("Product deleted successfully!");
+      } else {
+        const errorData = await res.text();
+        console.error("Failed to delete product:", res.status, errorData);
+        alert(`Failed to delete product: ${res.status} - ${errorData}`);
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      alert(`Error deleting product: ${error.message}`);
     }
   };
 
@@ -78,7 +88,7 @@ function ProductManagePage() {
             <div key={product.id} className="product-card">
               <Link to={`/products/${product.id}`} className="product-link">
                 <img
-                  src={product.cover_image_url}
+                  src={product.cover_image_url || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f0f0f0'/%3E%3Ctext x='100' y='100' text-anchor='middle' dy='0.3em' font-family='Arial' font-size='14' fill='%23666'%3ENo Image%3C/text%3E%3C/svg%3E"}
                   alt={product.title}
                   className="product-thumbnail"
                 />
