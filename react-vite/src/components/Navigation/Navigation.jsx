@@ -88,6 +88,9 @@ function Navigation() {
           <li className="manage-product-link">
             <NavLink to="/products/manage">Manage Products</NavLink>
           </li>
+          <li>
+            <NavLink to="/wishlist">Wishlist</NavLink>
+          </li>
         </>
       )}
 

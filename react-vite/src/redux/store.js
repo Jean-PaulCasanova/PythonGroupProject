@@ -42,6 +42,8 @@ import productsReducer from "./products"
 const rootReducer = combineReducers({
   session: sessionReducer,
   products: productsReducer,
+  reviews: reviewsReducer,
+  wishlist: wishlistReducer
 });
 
 let enhancer;
