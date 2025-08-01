@@ -70,7 +70,7 @@ from flask import Blueprint, request, jsonify
 from app.models import db, Product
 from flask_login import login_required, current_user
 
-product_routes = Blueprint('product_routes', __name__, url_prefix='/api/products')
+product_routes = Blueprint('product_routes', __name__)
 
 # GET 
 @product_routes.route('/')
