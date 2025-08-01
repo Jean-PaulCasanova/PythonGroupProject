@@ -463,6 +463,13 @@ def health_check():
     """
     return {"status": "healthy", "message": "Application is running"}
 
+@app.route("/api/test")
+def test_route():
+    """
+    Test route to debug 500 errors
+    """
+    return {"status": "success", "message": "Test route is working"}
+
 @app.route("/api/docs")
 def api_help():
     """
