@@ -427,7 +427,11 @@ db.init_app(app)
 Migrate(app, db)
 
 # Enable CORS for frontend origin, support credentials
-CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
+# Allow all origins in production, localhost in development
+if os.environ.get('FLASK_ENV') == 'production':
+    CORS(app, supports_credentials=True)
+else:
+    CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
 
 # ✅ Redirect fix: Prevent preflight OPTIONS requests from getting redirected
 @app.before_request
