@@ -466,9 +466,22 @@ def health_check():
 @app.route("/api/test")
 def test_route():
     """
-    Test route to debug 500 errors
+    Simple test route to verify API is working
     """
-    return {"status": "success", "message": "Test route is working"}
+    return {"message": "API is working!", "status": "success"}
+
+@app.route("/api/products/test")
+def test_products_route():
+    """
+    Test route to check database connection without querying products
+    """
+    try:
+        from app.models import db
+        # Simple database connection test
+        db.session.execute('SELECT 1')
+        return {"message": "Database connection working!", "status": "success"}
+    except Exception as e:
+        return {"error": str(e), "status": "error"}, 500
 
 @app.route("/api/docs")
 def api_help():
