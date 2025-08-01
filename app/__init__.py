@@ -498,7 +498,12 @@ def api_help():
     }
     return route_list
 
-# React frontend catch-all route
+# Handle 404s with React app
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
+
+# React frontend catch-all route - MUST be last to avoid intercepting API routes
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 @csrf.exempt
@@ -511,9 +516,4 @@ def react_root(path):
         return {"error": "API route not found"}, 404
     if path == 'favicon.ico':
         return app.send_from_directory('public', 'favicon.ico')
-    return app.send_static_file('index.html')
-
-# Handle 404s with React app
-@app.errorhandler(404)
-def not_found(e):
     return app.send_static_file('index.html')
