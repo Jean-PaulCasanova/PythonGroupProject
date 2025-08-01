@@ -411,6 +411,9 @@ app.cli.add_command(seed_commands)
 # Load app configuration
 app.config.from_object(Config)
 
+# Initialize CSRF protection
+csrf = CSRFProtect(app)
+
 # Register blueprints
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
