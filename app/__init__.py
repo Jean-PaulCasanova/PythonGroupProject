@@ -493,6 +493,9 @@ def react_root(path):
     """
     Serves the React frontend build
     """
+    # Skip API routes to ensure they're handled by their respective blueprints
+    if path.startswith('api/'):
+        return {"error": "API route not found"}, 404
     if path == 'favicon.ico':
         return app.send_from_directory('public', 'favicon.ico')
     return app.send_static_file('index.html')
