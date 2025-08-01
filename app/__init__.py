@@ -456,6 +456,13 @@ def inject_csrf_token(response):
     return response
 
 # API documentation route
+@app.route("/health")
+def health_check():
+    """
+    Simple health check endpoint
+    """
+    return {"status": "healthy", "message": "Application is running"}
+
 @app.route("/api/docs")
 def api_help():
     """
@@ -474,6 +481,7 @@ def api_help():
 # React frontend catch-all route
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
+@csrf.exempt
 def react_root(path):
     """
     Serves the React frontend build
