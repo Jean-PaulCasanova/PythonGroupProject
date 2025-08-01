@@ -40,7 +40,7 @@ def seed_users():
         password='password',
         first_name='Chris',
         last_name='Rios',
-        profile_image_url='https://m.media-amazon.com/images/M/MV5BMjMwMzkxOTQ4Nl5BMl5BanBnXkFtZTgwMzg3Njg0MjE@._V1_FMjpg_UX1000_.jpg'
+        profile_image_url='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZjNmNGY2Ii8+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNDAiIHI9IjE1IiBmaWxsPSIjOWNhM2FmIi8+CjxwYXRoIGQ9Ik0yNSA3NWMwLTEzLjggMTEuMi0yNSAyNS0yNXMyNSAxMS4yIDI1IDI1SDE1eiIgZmlsbD0iIzljYTNhZiIvPgo8L3N2Zz4='
     )
     jean = User(
         username='jean',
@@ -48,7 +48,7 @@ def seed_users():
         password='password',
         first_name='Jean',
         last_name='Casanova',
-        profile_image_url='https://static1.colliderimages.com/wordpress/wp-content/uploads/2021/11/sandman.jpg'
+        profile_image_url='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZjNmNGY2Ii8+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNDAiIHI9IjE1IiBmaWxsPSIjOWNhM2FmIi8+CjxwYXRoIGQ9Ik0yNSA3NWMwLTEzLjggMTEuMi0yNSAyNS0yNXMyNSAxMS4yIDI1IDI1SDE1eiIgZmlsbD0iIzljYTNhZiIvPgo8L3N2Zz4='
     )
     jose = User(
         username='jose',
@@ -56,7 +56,7 @@ def seed_users():
         password='password',
         first_name='Jose',
         last_name='Garcia',
-        profile_image_url='https://static.wikia.nocookie.net/spiderman-animated/images/4/41/689768978.PNG/revision/latest?cb=20150904040133'
+        profile_image_url='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZjNmNGY2Ii8+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNDAiIHI9IjE1IiBmaWxsPSIjOWNhM2FmIi8+CjxwYXRoIGQ9Ik0yNSA3NWMwLTEzLjggMTEuMi0yNSAyNS0yNXMyNSAxMS4yIDI1IDI1SDE1eiIgZmlsbD0iIzljYTNhZiIvPgo8L3N2Zz4='
     )
     east = User(
         username='east',
@@ -64,7 +64,7 @@ def seed_users():
         password='password',
         first_name='East',
         last_name='Allen',
-        profile_image_url='https://upload.wikimedia.org/wikipedia/en/9/91/Lizard_%28Curt_Connors%29.jpg'
+        profile_image_url='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZjNmNGY2Ii8+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNDAiIHI9IjE1IiBmaWxsPSIjOWNhM2FmIi8+CjxwYXRoIGQ9Ik0yNSA3NWMwLTEzLjggMTEuMi0yNSAyNS0yNXMyNSAxMS4yIDI1IDI1SDE1eiIgZmlsbD0iIzljYTNhZiIvPgo8L3N2Zz4='
     )
 
     db.session.add_all([chris, jean, jose, east])

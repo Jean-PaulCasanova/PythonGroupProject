@@ -1,44 +1,79 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as api from '../api/reviews';
 
+// Async thunks
 export const fetchReviews = createAsyncThunk(
   'reviews/fetchReviews',
   async (productId) => {
-    return await api.fetchReviewsByProduct(productId);
+    try {
+      return await api.fetchReviewsByProduct(productId);
+    } catch (error) {
+      throw new Error('Failed to fetch reviews');
+    }
   }
 );
 
-export const createNewReview = createAsyncThunk(
-  'reviews/createNewReview',
+export const createReview = createAsyncThunk(
+  'reviews/createReview',
   async ({ productId, reviewData }) => {
-    return await api.createReview(productId, reviewData);
+    try {
+      return await api.createReview(productId, reviewData);
+    } catch (error) {
+      throw new Error('Failed to create review');
+    }
   }
 );
 
-export const updateExistingReview = createAsyncThunk(
-  'reviews/updateExistingReview',
+export const updateReview = createAsyncThunk(
+  'reviews/updateReview',
   async ({ reviewId, reviewData }) => {
-    return await api.updateReview(reviewId, reviewData);
+    try {
+      return await api.updateReview(reviewId, reviewData);
+    } catch (error) {
+      throw new Error('Failed to update review');
+    }
   }
 );
 
-export const deleteExistingReview = createAsyncThunk(
-  'reviews/deleteExistingReview',
+export const deleteReview = createAsyncThunk(
+  'reviews/deleteReview',
   async (reviewId) => {
-    await api.deleteReview(reviewId);
-    return reviewId;
+    try {
+      await api.deleteReview(reviewId);
+      return reviewId;
+    } catch (error) {
+      throw new Error('Failed to delete review');
+    }
+  }
+);
+
+export const fetchMyReviews = createAsyncThunk(
+  'reviews/fetchMyReviews',
+  async () => {
+    try {
+      return await api.fetchMyReviews();
+    } catch (error) {
+      throw new Error('Failed to fetch my reviews');
+    }
   }
 );
 
 const reviewsSlice = createSlice({
   name: 'reviews',
   initialState: {
-    byId: {},
-    allIds: [],
+    reviews: [],
+    myReviews: [],
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    clearReviews: (state) => {
+      state.reviews = [];
+    },
+    clearError: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchReviews.pending, (state) => {
@@ -47,34 +82,38 @@ const reviewsSlice = createSlice({
       })
       .addCase(fetchReviews.fulfilled, (state, action) => {
         state.loading = false;
-        state.byId = {};
-        state.allIds = [];
-        action.payload.forEach((review) => {
-          state.byId[review.id] = review;
-          state.allIds.push(review.id);
-        });
+        state.reviews = action.payload;
       })
       .addCase(fetchReviews.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
-      .addCase(createNewReview.fulfilled, (state, action) => {
-        const review = action.payload;
-        state.byId[review.id] = review;
-        state.allIds.push(review.id);
+      .addCase(createReview.fulfilled, (state, action) => {
+        state.reviews.push(action.payload);
       })
-      .addCase(updateExistingReview.fulfilled, (state, action) => {
-        const review = action.payload;
-        if (state.byId[review.id]) {
-          state.byId[review.id] = review;
+      .addCase(updateReview.fulfilled, (state, action) => {
+        const index = state.reviews.findIndex(review => review.id === action.payload.id);
+        if (index !== -1) {
+          state.reviews[index] = action.payload;
         }
       })
-      .addCase(deleteExistingReview.fulfilled, (state, action) => {
-        const reviewId = action.payload;
-        delete state.byId[reviewId];
-        state.allIds = state.allIds.filter(id => id !== reviewId);
+      .addCase(deleteReview.fulfilled, (state, action) => {
+        state.reviews = state.reviews.filter(review => review.id !== action.payload);
+      })
+      .addCase(fetchMyReviews.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchMyReviews.fulfilled, (state, action) => {
+        state.loading = false;
+        state.myReviews = action.payload;
+      })
+      .addCase(fetchMyReviews.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
   },
 });
 
+export const { clearReviews, clearError } = reviewsSlice.actions;
 export default reviewsSlice.reducer;

@@ -21,4 +21,4 @@ COPY . .
 
 RUN flask db upgrade
 RUN flask seed all
-CMD gunicorn app:app
+CMD gunicorn app:app --timeout 120 --workers 1 --bind 0.0.0.0:$PORT

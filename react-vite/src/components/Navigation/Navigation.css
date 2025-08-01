@@ -51,6 +51,48 @@ html, body {
   font-size: large;
 }
 
+/* Navigation list styles */
+.nav-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  padding: 0 1rem;
+}
+
+.nav-list li {
+  margin: 0 0.5rem;
+}
+
+.create-product-link {
+  margin-left: auto;
+}
+
+.cart-link {
+  position: relative;
+}
+
+.cart-link a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.cart-link a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.cart-count {
+  color: #28a745;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
 @media (max-width: 768px) {
   .navbar {
     padding: 10px 15px;
