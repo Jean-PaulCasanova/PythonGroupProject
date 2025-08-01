@@ -1,3 +1,5 @@
+import { API_BASE_URL } from '../config';
+
 // Action Types
 const SET_CART = 'cart/SET_CART';
 const ADD_TO_CART = 'cart/ADD_TO_CART';
@@ -43,7 +45,7 @@ export const fetchCart = () => async (dispatch) => {
   dispatch(setCartError(null));
   
   try {
-    const response = await fetch('/api/cart/', {
+    const response = await fetch(`${API_BASE_URL}/api/cart/`, {
       credentials: 'include'
     });
     
@@ -65,7 +67,7 @@ export const addToCart = (productId, quantity = 1) => async (dispatch) => {
   dispatch(setCartError(null));
   
   try {
-    const response = await fetch('/api/cart/add', {
+    const response = await fetch(`${API_BASE_URL}/api/cart/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -93,7 +95,7 @@ export const updateCartItem = (cartItemId, quantity) => async (dispatch) => {
   dispatch(setCartError(null));
   
   try {
-    const response = await fetch(`/api/cart/update/${cartItemId}`, {
+    const response = await fetch(`${API_BASE_URL}/api/cart/update/${cartItemId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -122,7 +124,7 @@ export const removeFromCart = (cartItemId) => async (dispatch) => {
   dispatch(setCartError(null));
   
   try {
-    const response = await fetch(`/api/cart/remove/${cartItemId}`, {
+    const response = await fetch(`${API_BASE_URL}/api/cart/remove/${cartItemId}`, {
       method: 'DELETE',
       credentials: 'include'
     });
@@ -147,7 +149,7 @@ export const clearCart = () => async (dispatch) => {
   dispatch(setCartError(null));
   
   try {
-    const response = await fetch('/api/cart/clear', {
+    const response = await fetch(`${API_BASE_URL}/api/cart/clear`, {
       method: 'DELETE',
       credentials: 'include'
     });
@@ -170,7 +172,7 @@ export const checkout = () => async (dispatch) => {
   dispatch(setCartError(null));
   
   try {
-    const response = await fetch('/api/cart/checkout', {
+    const response = await fetch(`${API_BASE_URL}/api/cart/checkout`, {
       method: 'POST',
       credentials: 'include'
     });

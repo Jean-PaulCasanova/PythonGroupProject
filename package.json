@@ -1,0 +1,25 @@
+{
+  "name": "python-group-project-deploy",
+  "version": "1.0.0",
+  "description": "Deployment scripts for Python Group Project",
+  "main": "deploy_puppeteer.js",
+  "scripts": {
+    "deploy": "node deploy_puppeteer.js",
+    "install-deps": "npm install",
+    "start-chrome": "echo 'Starting Chrome with debugging port...' && /Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --remote-debugging-port=9222 --user-data-dir=/tmp/chrome-debug",
+    "deploy-help": "node -e \"console.log('🔧 Deployment Help:\\n1. Run: npm run start-chrome\\n2. In new terminal: npm run deploy\\n3. Follow the script instructions')\""
+  },
+  "dependencies": {
+    "puppeteer": "^21.0.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "deployment",
+    "render",
+    "puppeteer",
+    "flask",
+    "react"
+  ],
+  "author": "Python Group Project Team",
+  "license": "MIT"
+}

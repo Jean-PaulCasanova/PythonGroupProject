@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { API_BASE_URL } from '../config';
 
 // Async thunks
 export const fetchReviews = createAsyncThunk(
   'reviews/fetchReviews',
   async (productId) => {
-    const response = await fetch(`/api/products/${productId}/reviews`);
+    const response = await fetch(`${API_BASE_URL}/api/products/${productId}/reviews`);
     if (response.ok) {
       return await response.json();
     }
@@ -15,7 +16,7 @@ export const fetchReviews = createAsyncThunk(
 export const createReview = createAsyncThunk(
   'reviews/createReview',
   async ({ productId, reviewData }) => {
-    const response = await fetch(`/api/products/${productId}/reviews`, {
+    const response = await fetch(`${API_BASE_URL}/api/products/${productId}/reviews`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -33,7 +34,7 @@ export const createReview = createAsyncThunk(
 export const updateReview = createAsyncThunk(
   'reviews/updateReview',
   async ({ reviewId, reviewData }) => {
-    const response = await fetch(`/api/reviews/${reviewId}`, {
+    const response = await fetch(`${API_BASE_URL}/api/reviews/${reviewId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -51,7 +52,7 @@ export const updateReview = createAsyncThunk(
 export const deleteReview = createAsyncThunk(
   'reviews/deleteReview',
   async (reviewId) => {
-    const response = await fetch(`/api/reviews/${reviewId}`, {
+    const response = await fetch(`${API_BASE_URL}/api/reviews/${reviewId}`, {
       method: 'DELETE',
     });
     if (response.ok) {
@@ -64,7 +65,7 @@ export const deleteReview = createAsyncThunk(
 export const fetchMyReviews = createAsyncThunk(
   'reviews/fetchMyReviews',
   async () => {
-    const response = await fetch('/api/my-reviews');
+    const response = await fetch(`${API_BASE_URL}/api/my-reviews`);
     if (response.ok) {
       return await response.json();
     }

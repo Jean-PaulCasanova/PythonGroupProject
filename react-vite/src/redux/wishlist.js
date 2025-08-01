@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { API_BASE_URL } from '../config';
 
 // Async thunks
 export const fetchWishlist = createAsyncThunk(
   'wishlist/fetchWishlist',
   async () => {
-    const response = await fetch('/api/wishlist/');
+    const response = await fetch(`${API_BASE_URL}/api/wishlist/`);
     if (response.ok) {
       return await response.json();
     }
@@ -15,13 +16,13 @@ export const fetchWishlist = createAsyncThunk(
 export const addToWishlist = createAsyncThunk(
   'wishlist/addToWishlist',
   async (productId) => {
-    const response = await fetch(`/api/wishlist/${productId}`, {
+    const response = await fetch(`${API_BASE_URL}/api/wishlist/${productId}`, {
       method: 'POST',
     });
     if (response.ok) {
       await response.json();
       // Fetch updated wishlist after adding
-      const wishlistResponse = await fetch('/api/wishlist/');
+      const wishlistResponse = await fetch(`${API_BASE_URL}/api/wishlist/`);
       if (wishlistResponse.ok) {
         return await wishlistResponse.json();
       }
@@ -34,7 +35,7 @@ export const addToWishlist = createAsyncThunk(
 export const removeFromWishlist = createAsyncThunk(
   'wishlist/removeFromWishlist',
   async (productId) => {
-    const response = await fetch(`/api/wishlist/${productId}`, {
+    const response = await fetch(`${API_BASE_URL}/api/wishlist/${productId}`, {
       method: 'DELETE',
     });
     if (response.ok) {

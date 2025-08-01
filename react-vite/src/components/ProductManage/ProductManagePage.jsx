@@ -36,6 +36,7 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { API_BASE_URL } from "../../config";
 import "./ProductManagePage.css"; 
 
 function ProductManagePage() {
@@ -43,7 +44,7 @@ function ProductManagePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5002/api/products/manage", {
+    fetch(`${API_BASE_URL}/api/products/manage`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -56,7 +57,7 @@ function ProductManagePage() {
 
     try {
       console.log(`Attempting to delete product ${productId}`);
-      const res = await fetch(`http://localhost:5002/api/products/${productId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/products/${productId}`, {
         method: "DELETE",
         credentials: "include",
       });

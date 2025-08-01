@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../config";
+import "./ProductUpdatePage.css";
 
 function ProductUpdatePage() {
   const { productId } = useParams();
@@ -12,7 +14,7 @@ function ProductUpdatePage() {
 
   useEffect(() => {
     // Load product to edit
-    fetch(`http://localhost:5002/api/products/${productId}`)
+    fetch(`${API_BASE_URL}/api/products/${productId}`)
       .then((res) => res.json())
       .then((product) => {
         setTitle(product.title || "");
@@ -34,7 +36,7 @@ function ProductUpdatePage() {
     };
 
     try {
-      const res = await fetch(`http://localhost:5002/api/products/${productId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/products/${productId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

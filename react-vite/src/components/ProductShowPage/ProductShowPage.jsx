@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/cart";
 import { addToWishlist } from "../../redux/wishlist";
+import { API_BASE_URL } from "../../config";
 
 function ProductShowPage() {
   const { id } = useParams();
@@ -13,7 +14,7 @@ function ProductShowPage() {
   const [addingToWishlist, setAddingToWishlist] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:5002/api/products/${id}`)
+    fetch(`${API_BASE_URL}/api/products/${id}`)
       .then((res) => res.json())
       .then(setProduct);
   }, [id]);
