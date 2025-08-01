@@ -11,7 +11,7 @@
 # from .seeds import seed_commands
 # from .config import Config
 
-# app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
+# app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/static')
 
 # # Setup login manager
 # login = LoginManager(app)
@@ -395,7 +395,7 @@ from .api.wishlist_routes import wishlist_routes
 from .seeds import seed_commands
 from .config import Config
 
-app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
+app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/static')
 
 # Setup login manager
 login = LoginManager(app)
