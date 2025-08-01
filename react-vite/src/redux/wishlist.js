@@ -105,5 +105,12 @@ const wishlistSlice = createSlice({
   },
 });
 
+// Selectors (from JP branch)
+export const selectWishlist = (state) => state.wishlist.items;
+
+export const isProductWishlisted = (productId) => (state) => {
+  return state.wishlist.items.some((item) => item.productId === productId);
+};
+
 export const { clearWishlist, clearError } = wishlistSlice.actions;
 export default wishlistSlice.reducer;
