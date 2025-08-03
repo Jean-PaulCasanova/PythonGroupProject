@@ -31,7 +31,6 @@ RUN npm run build
 WORKDIR /var/www
 
 # Run database migrations and seed data
-# Note: In production, these should be run separately for better control
 RUN flask db upgrade
 RUN flask seed all
 
