@@ -9,7 +9,7 @@ services:
     dockerfilePath: ./Dockerfile
     plan: free
     region: oregon
-    branch: dev-main-updates
+    branch: east_onrender
     healthCheckPath: /api/csrf/debug
     envVars:
       - key: FLASK_APP
