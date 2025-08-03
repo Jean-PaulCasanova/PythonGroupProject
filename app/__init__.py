@@ -16,7 +16,7 @@ from .api.csrf_debug import csrf_debug
 from .seeds import seed_commands
 from .config import Config
 
-app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/static')
+app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='')
 
 # Setup login manager
 login = LoginManager(app)
