@@ -229,7 +229,8 @@ def react_root(path):
     """
     # Skip API routes to ensure they're handled by their respective blueprints
     if path.startswith('api/'):
-        return {"error": "API route not found"}, 404
+        from flask import abort
+        abort(404)
     # Assets are now handled by dedicated route above
     if path == 'favicon.ico':
         return send_from_directory('public', 'favicon.ico')
