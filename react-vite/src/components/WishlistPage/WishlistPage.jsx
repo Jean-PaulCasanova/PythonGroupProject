@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchWishlist, removeFromWishlist } from '../../redux/wishlist';
@@ -10,17 +9,6 @@ function WishlistPage() {
   const { items: wishlistItems, loading, error } = useSelector(state => state.wishlist);
   const { user } = useSelector(state => state.session);
   const [removingItems, setRemovingItems] = useState(new Set());
-=======
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchWishlist, removeFromWishlist } from '../../redux/wishlist';
-import './Wishlist.css';
-
-export default function WishlistPage() {
-  const dispatch = useDispatch();
-  const wishlist = useSelector((state) => state.wishlist);
-  const user = useSelector((state) => state.session.user);
->>>>>>> origin/JP
 
   useEffect(() => {
     if (user) {
@@ -28,7 +16,6 @@ export default function WishlistPage() {
     }
   }, [dispatch, user]);
 
-<<<<<<< HEAD
   const handleRemoveFromWishlist = async (productId) => {
     setRemovingItems(prev => new Set([...prev, productId]));
     try {
@@ -97,26 +84,26 @@ export default function WishlistPage() {
             <div key={item.productId} className="wishlist-item">
               <div className="product-image">
                 <img 
-                  src={item.coverImageUrl || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f0f0f0'/%3E%3Ctext x='100' y='100' text-anchor='middle' dy='0.3em' font-family='Arial' font-size='14' fill='%23666'%3ENo Image%3C/text%3E%3C/svg%3E"} 
-                  alt={item.title} 
+                  src={item.product.cover_image_url ? `/${item.product.cover_image_url}` : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f0f0f0'/%3E%3Ctext x='100' y='100' text-anchor='middle' dy='0.3em' font-family='Arial' font-size='14' fill='%23666'%3ENo Image%3C/text%3E%3C/svg%3E"} 
+                  alt={item.product.title} 
                 />
               </div>
               
               <div className="product-info">
-                <h3 className="product-name">{item.title}</h3>
-                <div className="product-price">${item.price}</div>
+                <h3 className="product-name">{item.product.title}</h3>
+                <div className="product-price">${item.product.price}</div>
                 
                 <div className="product-actions">
                   <button 
-                    onClick={() => handleAddToCart({ id: item.productId, title: item.title, price: item.price })}
+                    onClick={() => handleAddToCart(item.product)}
                     className="add-to-cart-btn"
                   >
                     Add to Cart
                   </button>
                   
                   <button 
-                    onClick={() => handleRemoveFromWishlist(item.productId)}
-                    disabled={removingItems.has(item.productId)}
+                    onClick={() => handleRemoveFromWishlist(item.product.id)}
+                    disabled={removingItems.has(item.product.id)}
                     className="remove-btn"
                   >
                     {removingItems.has(item.productId) ? 'Removing...' : 'Remove'}
@@ -132,37 +119,3 @@ export default function WishlistPage() {
 }
 
 export default WishlistPage;
-=======
-  const handleRemove = (productId) => {
-    dispatch(removeFromWishlist(productId));
-  };
-
-  if (!user) return <p>You must be logged in to view your wishlist.</p>;
-  if (!wishlist) return <p>Loading wishlist...</p>;
-
-  return (
-    <div className="wishlist-page">
-      <h1>Your Wishlist</h1>
-      {wishlist.length === 0 ? (
-        <p>No items in your wishlist yet!</p>
-      ) : (
-        <ul className="wishlist-grid">
-          {wishlist.map((item) => (
-            <li key={item.id} className="wishlist-item">
-              <img src={item.coverImageUrl} alt={item.title} />
-              <h3>{item.title}</h3>
-              <p>${item.price}</p>
-              <button
-                className="remove-wishlist-button"
-                onClick={() => handleRemove(item.productId)}
-              >
-                ❌ Remove
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-}
->>>>>>> origin/JP

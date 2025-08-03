@@ -16,3 +16,12 @@ class Wishlist(db.Model):
 
     user = db.relationship("User", back_populates="wish_list_items")
     product = db.relationship("Product", back_populates="wish_list_items")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'userId': self.user_id,
+            'productId': self.product_id,
+            'createdAt': self.created_at,
+            'product': self.product.to_dict() if self.product else None
+        }

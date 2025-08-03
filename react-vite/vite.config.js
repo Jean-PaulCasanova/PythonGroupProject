@@ -12,9 +12,10 @@ export default defineConfig((mode) => ({
     }),
   ],
   server: {
+    port: 3966,
     open: true,
     proxy: {
-      "/api": "http://127.0.0.1:5002",
+      "/api": "http://127.0.0.1:5000",
     },
   },
 }));

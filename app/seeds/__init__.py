@@ -1,6 +1,7 @@
 from flask.cli import AppGroup
 from .users import seed_users, undo_users
 from .products import seed_products, undo_products
+
 from .reviews import seed_reviews, undo_reviews
 from app.seeds.wishlists import seed_wishlists, undo_wishlists
 
@@ -33,6 +34,7 @@ def seed():
     
     seed_users()
     seed_products()
+
     seed_reviews()
     seed_wishlists()
     # Add other seed functions here
@@ -43,5 +45,6 @@ def seed():
 def undo():
     undo_wishlists()
     undo_reviews()
+
     undo_products()
     undo_users()

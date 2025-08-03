@@ -9,15 +9,7 @@ wishlist_routes = Blueprint("wishlist", __name__)
 @login_required
 def get_wishlist():
     wishlist_items = Wishlist.query.filter_by(user_id=current_user.id).all()
-    return jsonify([
-        {
-            "id": item.id,
-            "productId": item.product_id,
-            "title": item.product.title,
-            "coverImageUrl": item.product.cover_image_url,
-            "price": str(item.product.price),
-        } for item in wishlist_items
-    ])
+    return jsonify([item.to_dict() for item in wishlist_items])
 
 # POST /api/wishlist/<int:product_id> — Add to wishlist
 @wishlist_routes.route("/<int:product_id>", methods=["POST"])

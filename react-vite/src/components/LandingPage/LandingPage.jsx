@@ -43,13 +43,14 @@
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../../config";
 import "./LandingPage.css";
 
 function LandingPage() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/products", {
+    fetch(`${API_BASE_URL}/api/products`, {
       credentials: "include",
     })
       .then((res) => res.json())

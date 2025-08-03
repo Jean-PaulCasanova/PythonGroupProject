@@ -1,6 +1,6 @@
-<<<<<<< HEAD
 from app.models import db, Product, User, environment, SCHEMA
 from sqlalchemy.sql import text
+from datetime import datetime
 
 def seed_products():
     # Get users to assign as sellers
@@ -11,56 +11,15 @@ def seed_products():
         print("Users not found. Please seed users first.")
         return
     
-    # Create sample products with placeholder images
-    album1 = Product(
-        seller_id=chris.id,
-        title="My First Album",
-        description="Awesome debut album.",
-        price=9.99,
-        cover_image_url="https://i.imgur.com/8XAMABv"
-    )
-    
-    test_product1 = Product(
-        seller_id=chris.id,
-        title="EL Testo",
-        description="Test el test testo",
-        price=3.50,
-        cover_image_url="https://i.imgur.com/8XAMABv"
-    )
-    
-    test_product2 = Product(
-        seller_id=chris.id,
-        title="Test de gracia",
-        description="Testo del Bueno",
-        price=2.99,
-        cover_image_url="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f0f0f0'/%3E%3Ctext x='100' y='100' text-anchor='middle' dy='0.3em' font-family='Arial' font-size='14' fill='%23666'%3ETest Product%3C/text%3E%3C/svg%3E"
-    )
-    
-    test_product3 = Product(
-        seller_id=chris.id,
-        title="Puerto Testo",
-        description="Testo del Casi",
-        price=3.99,
-        cover_image_url="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f0f0f0'/%3E%3Ctext x='100' y='100' text-anchor='middle' dy='0.3em' font-family='Arial' font-size='14' fill='%23666'%3ETest Product%3C/text%3E%3C/svg%3E"
-    )
-    
-    music_product = Product(
+    divine_album = Product(
         seller_id=east.id,
-        title="nonegen",
-        description="gennone",
-        price=99.99,
-        cover_image_url="https://i.imgur.com/8XAMABv"
+        title="Divine Intervention",
+        description="A divine album.",
+        price=19.99,
+        cover_image_url='/blank_cd.png'
     )
-    
-    generic_product = Product(
-        seller_id=east.id,
-        title="title",
-        description="descri",
-        price=9.00,
-        cover_image_url="https://i.imgur.com/8XAMABv"
-    )
-    
-    db.session.add_all([album1, test_product1, test_product2, test_product3, music_product, generic_product])
+
+    db.session.add(divine_album)
     db.session.commit()
 
 def undo_products():
@@ -68,44 +27,4 @@ def undo_products():
         db.session.execute(f"TRUNCATE table {SCHEMA}.products RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM products"))
-        
-=======
-from app.models import db, Product
-from datetime import datetime
-
-def seed_products():
-    product1 = Product(
-        seller_id=1,
-        title="Dreamwave EP",
-        description="A smooth, retro-futuristic electronic EP from Neon Ghost.",
-        price=9.99,
-        cover_image_url="https://via.placeholder.com/300x300.png?text=Dreamwave+EP",
-        created_at=datetime.utcnow()
-    )
-
-    product2 = Product(
-        seller_id=1,
-        title="Sunset Lofi Beats",
-        description="Chillhop vibes for studying or relaxing.",
-        price=5.49,
-        cover_image_url="https://via.placeholder.com/300x300.png?text=Sunset+Lofi",
-        created_at=datetime.utcnow()
-    )
-
-    product3 = Product(
-        seller_id=2,
-        title="Ambient Oceans",
-        description="Soothing ambient textures from a seaborne perspective.",
-        price=12.00,
-        cover_image_url="https://via.placeholder.com/300x300.png?text=Ambient+Oceans",
-        created_at=datetime.utcnow()
-    )
-
-    db.session.add_all([product1, product2, product3])
-    db.session.commit()
-
-
-def undo_products():
-    db.session.execute("DELETE FROM products")
->>>>>>> origin/JP
     db.session.commit()

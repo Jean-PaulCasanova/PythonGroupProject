@@ -2,7 +2,7 @@
 # Deployment configuration for Flask app with PostgreSQL
 
 services:
-  # Web Service - Flask Application
+  # Flask application with burger products and CSRF debugging
   - type: web
     name: python-group-project
     env: docker
@@ -10,7 +10,7 @@ services:
     plan: free
     region: oregon
     branch: dev-main-updates
-    healthCheckPath: /
+    healthCheckPath: /api/csrf/debug
     envVars:
       - key: FLASK_APP
         value: app
@@ -24,6 +24,18 @@ services:
         fromDatabase:
           name: python-group-project-db
           property: connectionString
+      - key: WTF_CSRF_ENABLED
+        value: true
+      - key: WTF_CSRF_TIME_LIMIT
+        value: 3600
+    buildCommand: |
+      echo "Building Flask app with burger products..."
+      pip install -r requirements.txt
+    preDeployCommand: |
+      echo "Running pre-deploy commands..."
+      flask db upgrade
+      flask seed all
+      echo "Database seeded with burger products!"
 
 # PostgreSQL Database
 databases:

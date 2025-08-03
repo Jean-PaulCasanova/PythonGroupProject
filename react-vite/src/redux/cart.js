@@ -67,10 +67,12 @@ export const addToCart = (productId, quantity = 1) => async (dispatch) => {
   dispatch(setCartError(null));
   
   try {
+    const csrfToken = document.cookie.split('; ').find(row => row.startsWith('csrf_token='))?.split('=')[1];
     const response = await fetch(`${API_BASE_URL}/api/cart/add`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': csrfToken
       },
       credentials: 'include',
       body: JSON.stringify({ product_id: productId, quantity })
@@ -95,10 +97,12 @@ export const updateCartItem = (cartItemId, quantity) => async (dispatch) => {
   dispatch(setCartError(null));
   
   try {
+    const csrfToken = document.cookie.split('; ').find(row => row.startsWith('csrf_token='))?.split('=')[1];
     const response = await fetch(`${API_BASE_URL}/api/cart/update/${cartItemId}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': csrfToken
       },
       credentials: 'include',
       body: JSON.stringify({ quantity })
@@ -124,8 +128,12 @@ export const removeFromCart = (cartItemId) => async (dispatch) => {
   dispatch(setCartError(null));
   
   try {
+    const csrfToken = document.cookie.split('; ').find(row => row.startsWith('csrf_token='))?.split('=')[1];
     const response = await fetch(`${API_BASE_URL}/api/cart/remove/${cartItemId}`, {
       method: 'DELETE',
+      headers: {
+        'X-CSRF-Token': csrfToken
+      },
       credentials: 'include'
     });
     
@@ -149,8 +157,12 @@ export const clearCart = () => async (dispatch) => {
   dispatch(setCartError(null));
   
   try {
+    const csrfToken = document.cookie.split('; ').find(row => row.startsWith('csrf_token='))?.split('=')[1];
     const response = await fetch(`${API_BASE_URL}/api/cart/clear`, {
       method: 'DELETE',
+      headers: {
+        'X-CSRF-Token': csrfToken
+      },
       credentials: 'include'
     });
     
@@ -172,8 +184,12 @@ export const checkout = () => async (dispatch) => {
   dispatch(setCartError(null));
   
   try {
+    const csrfToken = document.cookie.split('; ').find(row => row.startsWith('csrf_token='))?.split('=')[1];
     const response = await fetch(`${API_BASE_URL}/api/cart/checkout`, {
       method: 'POST',
+      headers: {
+        'X-CSRF-Token': csrfToken
+      },
       credentials: 'include'
     });
     

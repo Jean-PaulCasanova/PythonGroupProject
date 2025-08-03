@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "../config";
+import { csrfFetch } from "./csrf";
 
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
@@ -13,19 +14,24 @@ const removeUser = () => ({
 });
 
 export const thunkAuthenticate = () => async (dispatch) => {
-	const response = await fetch(`${API_BASE_URL}/api/auth/`);
-	if (response.ok) {
-		const data = await response.json();
-		if (data.errors) {
-			return;
+	try {
+		const response = await csrfFetch(`${API_BASE_URL}/api/auth/`);
+		if (response.ok) {
+			const data = await response.json();
+			if (data.errors) {
+				return;
+			}
+			dispatch(setUser(data));
 		}
-
-		dispatch(setUser(data));
+		// If response is not ok (like 401), just continue without error
+	} catch (error) {
+		// Handle network errors gracefully
+		console.log('Authentication check failed:', error);
 	}
 };
 
 export const thunkLogin = (credentials) => async dispatch => {
-  const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+  const response = await csrfFetch(`${API_BASE_URL}/api/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(credentials)
@@ -43,7 +49,7 @@ export const thunkLogin = (credentials) => async dispatch => {
 };
 
 export const thunkSignup = (user) => async (dispatch) => {
-  const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
+  const response = await csrfFetch(`${API_BASE_URL}/api/auth/signup`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(user)
@@ -61,7 +67,7 @@ export const thunkSignup = (user) => async (dispatch) => {
 };
 
 export const thunkLogout = () => async (dispatch) => {
-  await fetch(`${API_BASE_URL}/api/auth/logout`);
+  await csrfFetch(`${API_BASE_URL}/api/auth/logout`);
   dispatch(removeUser());
 };
 

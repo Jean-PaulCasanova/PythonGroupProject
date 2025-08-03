@@ -380,7 +380,8 @@
 
 
 import os
-from flask import Flask, render_template, request, session, redirect
+import logging
+from flask import Flask, render_template, request, session, redirect, send_from_directory
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
@@ -392,6 +393,7 @@ from .api.product_routes import product_routes
 from .api.cart_routes import cart_routes
 from .api.reviews_routes import review_routes
 from .api.wishlist_routes import wishlist_routes
+from .api.csrf_debug import csrf_debug
 from .seeds import seed_commands
 from .config import Config
 
@@ -421,16 +423,26 @@ app.register_blueprint(product_routes, url_prefix='/api/products')
 app.register_blueprint(cart_routes, url_prefix='/api/cart')
 app.register_blueprint(review_routes, url_prefix='/api')
 app.register_blueprint(wishlist_routes, url_prefix='/api/wishlist')
+app.register_blueprint(csrf_debug)
 
 # Initialize the database and migration
 db.init_app(app)
 Migrate(app, db)
 
-# Application Security
+# Enable CORS debug logging
+logging.getLogger('flask_cors').level = logging.DEBUG
+
+# Enable CORS
 if os.environ.get('FLASK_ENV') == 'production':
     CORS(app, supports_credentials=True)
 else:
-    CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
+    # Allow all origins for development debugging
+    CORS(app, supports_credentials=True, origins=["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:3966", "http://localhost:3967"], 
+         allow_headers=["Content-Type", "Authorization", "X-CSRFToken"], 
+         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+
+# Enable Flask-CORS debug logging
+logging.getLogger('flask_cors').level = logging.DEBUG
 
 # ✅ Redirect fix: Prevent preflight OPTIONS requests from getting redirected
 @app.before_request
@@ -452,7 +464,6 @@ def inject_csrf_token(response):
         samesite='Strict' if os.environ.get('FLASK_ENV') == 'production' else None,
         httponly=False
     )
-    response.headers.add("Access-Control-Allow-Credentials", "true")
     return response
 
 # API documentation route
@@ -518,5 +529,5 @@ def react_root(path):
     if path.startswith('api/'):
         return {"error": "API route not found"}, 404
     if path == 'favicon.ico':
-        return app.send_from_directory('public', 'favicon.ico')
+        return send_from_directory('public', 'favicon.ico')
     return app.send_static_file('index.html')

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useNavigate, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { createProduct } from "../../redux/products";
 
 function ProductFormPage() {
@@ -10,9 +10,17 @@ function ProductFormPage() {
   const [coverImageUrl, setCoverImageUrl] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { error } = useSelector((state) => state.products);
+  const sessionUser = useSelector((state) => state.session.user);
+
+  // Redirect to login if user is not authenticated
+  if (!sessionUser) {
+    return <Navigate to="/login" replace={true} />;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Submitting product data...');
 
     const productData = {
       title,
@@ -21,13 +29,11 @@ function ProductFormPage() {
       cover_image_url: coverImageUrl,
     };
 
-    try {
-      const newProduct = await dispatch(createProduct(productData));
-      if (newProduct && newProduct.id) {
-        navigate(`/products/${newProduct.id}`);
-      }
-    } catch (err) {
-      console.error("Failed to create product:", err);
+    console.log('Product data to be dispatched:', productData);
+
+    const newProduct = await dispatch(createProduct(productData));
+    if (newProduct && newProduct.id) {
+      navigate(`/products/${newProduct.id}`);
     }
   };
 
@@ -64,6 +70,7 @@ function ProductFormPage() {
         />
         <button type="submit">Create</button>
       </form>
+      {error && <p className="error">{error.message || 'An error occurred.'}</p>}
     </div>
   );
 }

@@ -16,8 +16,13 @@ export const fetchWishlist = createAsyncThunk(
 export const addToWishlist = createAsyncThunk(
   'wishlist/addToWishlist',
   async (productId) => {
+    const csrfToken = document.cookie.split('; ').find(row => row.startsWith('csrf_token='))?.split('=')[1];
     const response = await fetch(`${API_BASE_URL}/api/wishlist/${productId}`, {
       method: 'POST',
+      credentials: 'include',
+      headers: {
+        'X-CSRF-Token': csrfToken
+      }
     });
     if (response.ok) {
       await response.json();
@@ -35,8 +40,13 @@ export const addToWishlist = createAsyncThunk(
 export const removeFromWishlist = createAsyncThunk(
   'wishlist/removeFromWishlist',
   async (productId) => {
+    const csrfToken = document.cookie.split('; ').find(row => row.startsWith('csrf_token='))?.split('=')[1];
     const response = await fetch(`${API_BASE_URL}/api/wishlist/${productId}`, {
       method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'X-CSRF-Token': csrfToken
+      }
     });
     if (response.ok) {
       return productId;

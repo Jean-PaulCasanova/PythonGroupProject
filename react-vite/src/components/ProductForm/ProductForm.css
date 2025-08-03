@@ -1,0 +1,43 @@
+.product-form {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: auto;
+}
+
+.product-form h2 {
+    text-align: center;
+}
+
+.product-form div {
+    margin-bottom: 15px;
+}
+
+.product-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.product-form input,
+.product-form textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.product-form button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.product-form button:hover {
+    background-color: #0056b3;
+}
+
+.product-form .error {
+    color: red;
+    font-size: 0.8em;
+}

@@ -20,8 +20,4 @@ class ReviewForm(FlaskForm):
         validators=[
             DataRequired(message='Content is required.'),
             Length(max=500, message='Content must be under 500 characters long.')
-<<<<<<< HEAD
         ])
-=======
-        ])
->>>>>>> origin/dev-main-updates

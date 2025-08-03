@@ -12,7 +12,9 @@
   "dependencies": {
     "puppeteer": "^21.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  },
   "keywords": [
     "deployment",
     "render",

@@ -21,9 +21,14 @@ function ProductManagePage() {
 
     try {
       console.log(`Attempting to delete product ${productId}`);
+      const csrfToken = document.cookie.split('; ').find(row => row.startsWith('csrf_token='))?.split('=')[1];
+
       const res = await fetch(`${API_BASE_URL}/api/products/${productId}`, {
         method: "DELETE",
         credentials: "include",
+        headers: {
+          'X-CSRF-Token': csrfToken
+        }
       });
 
       console.log(`Delete response status: ${res.status}`);
@@ -45,7 +50,12 @@ function ProductManagePage() {
 
   return (
     <div className="manage-products-container">
-      <h1>Manage Your Products</h1>
+      <div className="manage-products-header">
+        <h1>Manage Your Products</h1>
+        <button className="create-new-button" onClick={() => navigate('/products/new')}>
+          Create New Product
+        </button>
+      </div>
 
       {products.length ? (
         <div className="product-list">

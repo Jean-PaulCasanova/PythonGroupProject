@@ -69,8 +69,4 @@ def delete_review(review_id):
 
     db.session.delete(review)
     db.session.commit()
-<<<<<<< HEAD
-    return {'message': 'Review deleted successfully'}, 204
-=======
     return {'message': 'Review deleted successfully'}, 200
->>>>>>> origin/dev-main-updates

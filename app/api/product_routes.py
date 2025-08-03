@@ -28,18 +28,25 @@ def manage_products():
 @login_required
 def create_product():
     data = request.get_json()
+    print('Received data for new product:', data)
 
-    product = Product(
-        seller_id=current_user.id,
-        title=data['title'],
-        description=data['description'],
-        price=data['price'],
-        cover_image_url=data.get('cover_image_url')
-    )
+    try:
+        product = Product(
+            seller_id=current_user.id,
+            title=data['title'],
+            description=data['description'],
+            price=data['price'],
+            cover_image_url=data.get('cover_image_url')
+        )
 
-    db.session.add(product)
-    db.session.commit()
-    return product.to_dict(), 201
+        db.session.add(product)
+        db.session.commit()
+        print('Successfully created product:', product.to_dict())
+        return product.to_dict(), 201
+    except Exception as e:
+        db.session.rollback()
+        print('Error creating product:', str(e))
+        return jsonify({'error': 'Failed to create product'}), 500
 
 # PUT UPDATE
 @product_routes.route('/<int:id>', methods=['PUT'])
