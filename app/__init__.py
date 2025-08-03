@@ -149,7 +149,12 @@ def react_root(path):
         return {"error": "API route not found"}, 404
     # Skip asset files - let Flask serve them as static files
     if path.startswith('assets/'):
-        return app.send_static_file(path)
+        print(f"DEBUG: Serving static file: {path}")
+        try:
+            return app.send_static_file(path)
+        except Exception as e:
+            print(f"DEBUG: Error serving static file {path}: {e}")
+            return {"error": f"Static file not found: {path}"}, 404
     if path == 'favicon.ico':
         return send_from_directory('public', 'favicon.ico')
     # Handle other static files
