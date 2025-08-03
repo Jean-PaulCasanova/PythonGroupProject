@@ -113,6 +113,82 @@ def test_products_route():
     except Exception as e:
         return {"error": str(e), "status": "error"}, 500
 
+@app.route("/api/database/debug")
+def debug_database():
+    """
+    Debug route to check database tables and products table structure
+    """
+    try:
+        from app.models import db, Product
+        from sqlalchemy import text
+        
+        # Check if products table exists
+        result = db.session.execute(text("SELECT name FROM sqlite_master WHERE type='table' AND name='products';"))
+        table_exists = result.fetchone() is not None
+        
+        # Get table schema if it exists
+        schema_info = None
+        if table_exists:
+            schema_result = db.session.execute(text("PRAGMA table_info(products);"))
+            schema_info = [dict(row._mapping) for row in schema_result]
+        
+        # Try to count products
+        product_count = None
+        try:
+            product_count = Product.query.count()
+        except Exception as count_error:
+            product_count = f"Error counting: {str(count_error)}"
+        
+        return {
+            "status": "success",
+            "table_exists": table_exists,
+            "schema_info": schema_info,
+            "product_count": product_count,
+            "database_url": os.environ.get('DATABASE_URL', 'Not set')[:50] + '...' if os.environ.get('DATABASE_URL') else 'Not set'
+        }
+    except Exception as e:
+        return {"error": str(e), "status": "error"}, 500
+
+@app.route("/api/db/diagnostic")
+def database_diagnostic():
+    """
+    Comprehensive database diagnostic to check tables and data
+    """
+    try:
+        from app.models import db, Product
+        from sqlalchemy import text
+        
+        results = {}
+        
+        # Check if products table exists
+        try:
+            table_check = db.session.execute(text("SELECT name FROM sqlite_master WHERE type='table' AND name='products';"))
+            table_exists = table_check.fetchone() is not None
+            results['products_table_exists'] = table_exists
+        except Exception as e:
+            results['products_table_check_error'] = str(e)
+        
+        # Try to count products
+        try:
+            product_count = Product.query.count()
+            results['product_count'] = product_count
+        except Exception as e:
+            results['product_count_error'] = str(e)
+        
+        # Try to get first product
+        try:
+            first_product = Product.query.first()
+            if first_product:
+                results['first_product'] = first_product.to_dict()
+            else:
+                results['first_product'] = None
+        except Exception as e:
+            results['first_product_error'] = str(e)
+        
+        return {"diagnostic": results, "status": "success"}
+    except Exception as e:
+        return {"error": str(e), "status": "error"}, 500
+
 @app.route("/api/docs")
 def api_help():
     """
