@@ -29,8 +29,8 @@ class Product(db.Model):
             "seller_id": self.seller_id,
             "title": self.title,
             "description": self.description,
-            "price": float(self.price),
+            "price": float(self.price) if self.price is not None else 0.0,
             "cover_image_url": self.cover_image_url,
-            "created_at": self.created_at.isoformat(),
-            "updated_at": self.updated_at.isoformat(),
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
