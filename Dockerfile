@@ -19,6 +19,17 @@ RUN pip install psycopg2
 
 COPY . .
 
+# Install Node.js and npm for React build
+RUN apk add --no-cache nodejs npm
+
+# Build React frontend
+WORKDIR /var/www/react-vite
+RUN npm install
+RUN npm run build
+
+# Return to main directory
+WORKDIR /var/www
+
 # Run database migrations and seed data
 # Note: In production, these should be run separately for better control
 RUN flask db upgrade
