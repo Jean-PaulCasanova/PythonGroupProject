@@ -4,25 +4,11 @@ from flask_login import login_required, current_user
 
 product_routes = Blueprint('product_routes', __name__)
 
-# Health check endpoint
-@product_routes.route('/health')
-def health_check():
-    """Health check endpoint for product routes"""
-    try:
-        # Test database connection
-        db.session.execute('SELECT 1')
-        return jsonify({"status": "healthy", "message": "Product API is working"})
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
-
-# GET all products
+# GET 
 @product_routes.route('/')
 def get_all_products():
-    try:
-        products = Product.query.all()
-        return jsonify([product.to_dict() for product in products])
-    except Exception as e:
-        return jsonify({"error": "Failed to fetch products", "message": str(e)}), 500
+    products = Product.query.all()
+    return jsonify([product.to_dict() for product in products])
 
 # GET ID
 @product_routes.route('/<int:id>')

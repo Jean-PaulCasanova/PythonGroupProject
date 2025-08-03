@@ -1,28 +1,30 @@
 from flask import Blueprint, request, jsonify
 from app.models import db, Product
 from flask_login import login_required, current_user
+    try:
+        # Get all products from database
+        products = Product.query.all()
+        
+        # Safely serialize products with error handling
+        product_list = []
+        for product in products:
+            try:
+                product_list.append(product.to_dict())
+            except Exception as e:
+                print(f"Error serializing product {product.id}: {str(e)}")
+                continue
+        
+        return jsonify({"products": product_list})
+    except Exception as e:
+        print(f"Error fetching products: {str(e)}")
+        return jsonify({"error": "Failed to fetch products", "message": str(e)}), 500
 
 product_routes = Blueprint('product_routes', __name__)
 
-# Health check endpoint
-@product_routes.route('/health')
-def health_check():
-    """Health check endpoint for product routes"""
-    try:
-        # Test database connection
-        db.session.execute('SELECT 1')
-        return jsonify({"status": "healthy", "message": "Product API is working"})
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
-
-# GET all products
-@product_routes.route('/')
+# GET 
 def get_all_products():
-    try:
-        products = Product.query.all()
-        return jsonify([product.to_dict() for product in products])
-    except Exception as e:
-        return jsonify({"error": "Failed to fetch products", "message": str(e)}), 500
+    products = Product.query.all()
+    return jsonify([product.to_dict() for product in products])
 
 # GET ID
 @product_routes.route('/<int:id>')
