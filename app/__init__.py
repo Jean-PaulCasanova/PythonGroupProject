@@ -137,6 +137,13 @@ def not_found(e):
     return app.send_static_file('index.html')
 
 # React frontend catch-all route - MUST be last to avoid intercepting API routes
+# Explicit route for assets
+@app.route('/assets/<path:filename>')
+@csrf.exempt
+def serve_assets(filename):
+    """Serve static assets from the assets folder"""
+    return send_from_directory(os.path.join(app.static_folder, 'assets'), filename)
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 @csrf.exempt
@@ -147,14 +154,7 @@ def react_root(path):
     # Skip API routes to ensure they're handled by their respective blueprints
     if path.startswith('api/'):
         return {"error": "API route not found"}, 404
-    # Skip asset files - let Flask serve them as static files
-    if path.startswith('assets/'):
-        print(f"DEBUG: Serving static file: {path}")
-        try:
-            return app.send_static_file(path)
-        except Exception as e:
-            print(f"DEBUG: Error serving static file {path}: {e}")
-            return {"error": f"Static file not found: {path}"}, 404
+    # Assets are now handled by dedicated route above
     if path == 'favicon.ico':
         return send_from_directory('public', 'favicon.ico')
     # Handle other static files
