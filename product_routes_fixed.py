@@ -256,6 +256,73 @@ def database_debug():
     except Exception as e:
         return jsonify({'error': str(e), 'timestamp': datetime.utcnow().isoformat()}), 500
 
+@product_bp.route('/api/database/init', methods=['POST'])
+def initialize_database():
+    """Initialize database tables and sample data"""
+    try:
+        # Create all tables
+        db.create_all()
+        
+        # Create sample data if tables are empty
+        if User.query.count() == 0:
+            sample_user = User(
+                username='admin',
+                email='admin@example.com',
+                first_name='Admin',
+                last_name='User'
+            )
+            sample_user.password = 'password123'
+            db.session.add(sample_user)
+            db.session.commit()
+            
+        if Product.query.count() == 0:
+            sample_products = [
+                Product(
+                    seller_id=1,
+                    title='Sample Album 1',
+                    description='A great music album',
+                    price=19.99,
+                    cover_image_url='https://via.placeholder.com/300x300?text=Album+1'
+                ),
+                Product(
+                    seller_id=1,
+                    title='Sample Album 2', 
+                    description='Another amazing album',
+                    price=24.99,
+                    cover_image_url='https://via.placeholder.com/300x300?text=Album+2'
+                ),
+                Product(
+                    seller_id=1,
+                    title='Sample Album 3',
+                    description='The best album ever',
+                    price=29.99,
+                    cover_image_url='https://via.placeholder.com/300x300?text=Album+3'
+                )
+            ]
+            
+            for product in sample_products:
+                db.session.add(product)
+            
+            db.session.commit()
+            
+        return create_success_response(
+            message="Database initialized successfully",
+            data={
+                'tables_created': True,
+                'sample_data_added': True,
+                'user_count': User.query.count(),
+                'product_count': Product.query.count()
+            }
+        )
+        
+    except Exception as e:
+        db.session.rollback()
+        logger.error(f"Database initialization error: {str(e)}")
+        return create_error_response(
+            message="Failed to initialize database",
+            details=str(e)
+        )
+
 # Error handlers
 @product_bp.errorhandler(404)
 def not_found(error):
