@@ -2,6 +2,9 @@ from flask_sqlalchemy import SQLAlchemy
 
 import os
 environment = os.getenv("FLASK_ENV")
+# If no FLASK_ENV is set but we have a SCHEMA, assume production
+if not environment and os.getenv("SCHEMA"):
+    environment = "production"
 SCHEMA = os.environ.get("SCHEMA")
 
 
