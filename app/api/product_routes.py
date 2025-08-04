@@ -89,8 +89,8 @@ def create_success_response(data=None, message="Success", meta=None):
     
     return jsonify(response), 200
 
-@product_bp.route('/api/products', methods=['GET'])
-@product_bp.route('/api/products/', methods=['GET'])
+@product_bp.route('/', methods=['GET'])
+@product_bp.route('', methods=['GET'])
 def get_all_products():
     """
     Get all products with comprehensive error handling
@@ -236,7 +236,7 @@ def get_all_products():
             str(e) if current_app.debug else None
         )
 
-@product_bp.route('/api/products/<int:product_id>', methods=['GET'])
+@product_bp.route('/<int:product_id>', methods=['GET'])
 def get_product(product_id):
     """Get a single product by ID with error handling"""
     try:
@@ -274,7 +274,7 @@ def get_product(product_id):
         logger.error(f"Unexpected error in get_product: {str(e)}")
         return create_error_response("An unexpected error occurred", 500)
 
-@product_bp.route('/api/products', methods=['POST'])
+@product_bp.route('/', methods=['POST'])
 def create_product():
     """Create a new product with validation for your schema"""
     try:
@@ -365,7 +365,6 @@ def create_product():
         return create_error_response("An unexpected error occurred", 500)
 
 # Health check and debug endpoints
-@product_bp.route('/api/products/health', methods=['GET'])
 @product_bp.route('/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
@@ -395,7 +394,7 @@ def health_check():
         logger.error(f"Health check error: {str(e)}")
         return create_error_response("Health check failed", 500)
 
-@product_bp.route('/api/database/debug', methods=['GET'])
+@product_bp.route('/database/debug', methods=['GET'])
 def database_debug():
     """Database debug endpoint"""
     try:
