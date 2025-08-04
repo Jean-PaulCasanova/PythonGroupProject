@@ -22,5 +22,6 @@ COPY . .
 
 RUN flask db downgrade base
 RUN flask db upgrade
+RUN psql "$DATABASE_URL" -c "DROP TABLE IF EXISTS users CASCADE;"
 RUN flask seed all
 CMD gunicorn app:app
