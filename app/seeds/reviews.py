@@ -3,10 +3,14 @@ from datetime import datetime
 from random import randint, choice
 from app.models.db import environment
 
-def seed_reviews():
+def seed_reviews(product_ids=None):
+    if not product_ids or len(product_ids) < 2:
+        print("Product IDs not provided or insufficient. Please seed products first.")
+        return
+    # Use actual product IDs
     review1 = Review(
         user_id=1,
-        product_id=1,
+        product_id=product_ids[0],
         rating=5,
         title="Great product!",
         content="Excellent product! Highly recommend it.",
@@ -15,7 +19,7 @@ def seed_reviews():
     )
     review2 = Review(
         user_id=2,
-        product_id=1,
+        product_id=product_ids[0],
         rating=4,
         title="Good quality",
         content="Very good quality, but a bit expensive.",
@@ -24,7 +28,7 @@ def seed_reviews():
     )
     review3 = Review(
         user_id=3,
-        product_id=2,
+        product_id=product_ids[1],
         rating=3,
         title="Average product",
         content="Average product, nothing special.",

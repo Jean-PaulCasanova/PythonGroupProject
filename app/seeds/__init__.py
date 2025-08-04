@@ -31,11 +31,10 @@ def seed():
         undo_reviews()
         undo_products()
         undo_users()
-    
+    # Correct seeding order: users -> products -> reviews -> wishlists
     seed_users()
-    seed_products()
-
-    seed_reviews()
+    product_ids = seed_products()
+    seed_reviews(product_ids)
     seed_wishlists()
     # Add other seed functions here
 
