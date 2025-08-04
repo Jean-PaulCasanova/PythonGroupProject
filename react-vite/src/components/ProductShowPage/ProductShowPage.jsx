@@ -14,23 +14,20 @@ function ProductShowPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Fetch product by ID
     fetch(`http://localhost:5000/api/products/${id}`)
       .then((res) => res.json())
       .then(setProduct);
   }, [id]);
 
   useEffect(() => {
-    // Load wishlist on component mount
     dispatch(fetchWishlist());
   }, [dispatch]);
 
-  // If product hasn't loaded yet
-  if (!product) return <p>Loading...</p>;
-
-  const isWishlisted = useSelector(
-    (state) => isProductWishlisted(product.id)(state)
+  const isWishlisted = useSelector((state) =>
+    product ? isProductWishlisted(product.id)(state) : false
   );
+
+  if (!product) return <p>Loading...</p>;
 
   const handleWishlistToggle = () => {
     if (isWishlisted) {
