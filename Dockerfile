@@ -14,11 +14,13 @@ WORKDIR /var/www
 
 COPY requirements.txt .
 
+
 RUN pip install -r requirements.txt
 RUN pip install psycopg2
 
 COPY . .
 
+RUN flask db downgrade base
 RUN flask db upgrade
 RUN flask seed all
 CMD gunicorn app:app
