@@ -2,6 +2,15 @@ from flask_sqlalchemy import SQLAlchemy
 
 import os
 environment = os.getenv("FLASK_ENV")
+# Detect production environment from common deployment platforms
+if not environment:
+    if (os.getenv("SCHEMA") or           # Render sets SCHEMA
+        os.getenv("RENDER") or           # Render platform
+        os.getenv("DATABASE_URL")):      # Production database URL
+        environment = "production"
+    else:
+        environment = "development"
+
 SCHEMA = os.environ.get("SCHEMA")
 
 

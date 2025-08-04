@@ -9,7 +9,7 @@ def seed_products():
     
     if not chris or not east:
         print("Users not found. Please seed users first.")
-        return
+        return []
     
     divine_album = Product(
         seller_id=east.id,
@@ -18,13 +18,25 @@ def seed_products():
         price=19.99,
         cover_image_url='/blank_cd.png'
     )
+    
+    cool_gadget = Product(
+        seller_id=chris.id,
+        title="Cool Gadget",
+        description="A really cool gadget.",
+        price=29.99,
+        cover_image_url='/gadget.png'
+    )
 
-    db.session.add(divine_album)
+    db.session.add_all([divine_album, cool_gadget])
     db.session.commit()
+    return [divine_album.id, cool_gadget.id]
 
 def undo_products():
-    if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.products RESTART IDENTITY CASCADE;")
+    # Check if we're using PostgreSQL (production) or SQLite (development)
+    dialect_name = db.engine.dialect.name
+    
+    if environment == "production" and dialect_name == 'postgresql':
+        db.session.execute(text(f"TRUNCATE table {SCHEMA}.products RESTART IDENTITY CASCADE;"))
     else:
         db.session.execute(text("DELETE FROM products"))
     db.session.commit()

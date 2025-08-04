@@ -53,12 +53,15 @@ logging.getLogger('flask_cors').level = logging.DEBUG
 
 # Enable CORS
 if os.environ.get('FLASK_ENV') == 'production':
-    CORS(app, supports_credentials=True)
+    CORS(app, supports_credentials=True, origins=[
+        "https://g3nr3l3ss.onrender.com",
+        "https://your-frontend-domain.com"
+    ])
 else:
     # Allow all origins for development debugging
-    CORS(app, supports_credentials=True, origins=["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:3966", "http://localhost:3967"], 
-         allow_headers=["Content-Type", "Authorization", "X-CSRFToken"], 
-         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+    CORS(app, supports_credentials=True, origins=[
+        "http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:3966", "http://localhost:3967"
+    ], allow_headers=["Content-Type", "Authorization", "X-CSRFToken"], methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 
 # Enable Flask-CORS debug logging
 logging.getLogger('flask_cors').level = logging.DEBUG

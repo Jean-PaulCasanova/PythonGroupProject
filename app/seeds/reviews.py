@@ -1,12 +1,26 @@
-from app.models import db, Review
+from app.models import db, Review, User
 from datetime import datetime
 from random import randint, choice
-from app.models.db import environment
+from app.models.db import environment, SCHEMA
+from sqlalchemy.sql import text
 
-def seed_reviews():
+def seed_reviews(product_ids=None):
+    if not product_ids or len(product_ids) < 2:
+        print("Product IDs not provided or insufficient. Please seed products first.")
+        return
+    
+    # Get actual user IDs from the database
+    users = User.query.all()
+    if len(users) < 3:
+        print("Not enough users found. Please seed users first.")
+        return
+    
+    user_ids = [user.id for user in users[:3]]
+    
+    # Use actual user and product IDs
     review1 = Review(
-        user_id=1,
-        product_id=1,
+        user_id=user_ids[0],
+        product_id=product_ids[0],
         rating=5,
         title="Great product!",
         content="Excellent product! Highly recommend it.",
@@ -14,8 +28,8 @@ def seed_reviews():
         updated_at=datetime.now()
     )
     review2 = Review(
-        user_id=2,
-        product_id=1,
+        user_id=user_ids[1],
+        product_id=product_ids[0],
         rating=4,
         title="Good quality",
         content="Very good quality, but a bit expensive.",
@@ -23,8 +37,8 @@ def seed_reviews():
         updated_at=datetime.now()
     )
     review3 = Review(
-        user_id=3,
-        product_id=2,
+        user_id=user_ids[2],
+        product_id=product_ids[1],
         rating=3,
         title="Average product",
         content="Average product, nothing special.",
@@ -36,12 +50,18 @@ def seed_reviews():
     db.session.commit()
 
 def undo_reviews():
-    if environment == 'production':
-        db.session.execute('TRUNCATE TABLE reviews RESTART IDENTITY CASCADE;')
+    # Check if we're using PostgreSQL (production) or SQLite (development)
+    dialect_name = db.engine.dialect.name
+    
+    if environment == 'production' and dialect_name == 'postgresql':
+        # Use PostgreSQL TRUNCATE with schema
+        db.session.execute(text(f"TRUNCATE table {SCHEMA}.reviews RESTART IDENTITY CASCADE;"))
     else:
-        db.session.execute('DELETE FROM reviews')
+        # Use DELETE for SQLite or fallback
+        db.session.execute(text("DELETE FROM reviews"))
         try:
-            db.session.execute('DELETE FROM sqlite_sequence WHERE name="reviews"')
+            # Reset SQLite sequence if it exists
+            db.session.execute(text('DELETE FROM sqlite_sequence WHERE name="reviews"'))
         except Exception:
             # sqlite_sequence may not exist, so just ignore this error
             pass

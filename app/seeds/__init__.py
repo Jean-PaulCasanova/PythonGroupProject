@@ -15,6 +15,8 @@ seed_commands = AppGroup('seed')
 # Creates the `flask seed all` command
 @seed_commands.command('all')
 def seed():
+    print(f"DEBUG: Detected environment: {environment}")
+    print(f"DEBUG: SCHEMA value: {SCHEMA}")
     if environment == 'production':
         # Before seeding in production, you want to run the seed undo 
         # command, which will  truncate all tables prefixed with 
@@ -31,11 +33,10 @@ def seed():
         undo_reviews()
         undo_products()
         undo_users()
-    
+    # Correct seeding order: users -> products -> reviews -> wishlists
     seed_users()
-    seed_products()
-
-    seed_reviews()
+    product_ids = seed_products()
+    seed_reviews(product_ids)
     seed_wishlists()
     # Add other seed functions here
 
