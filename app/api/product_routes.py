@@ -22,6 +22,7 @@ except ImportError:
 
 # Create blueprint
 product_bp = Blueprint('products', __name__)
+product_routes = product_bp  # Export with expected name
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -85,8 +86,8 @@ def create_success_response(data=None, message="Success", meta=None):
     
     return jsonify(response), 200
 
-@product_bp.route('/api/products', methods=['GET'])
-@product_bp.route('/api/products/', methods=['GET'])
+@product_bp.route('', methods=['GET'])
+@product_bp.route('/', methods=['GET'])
 def get_all_products():
     """Get all products with comprehensive error handling"""
     try:
@@ -178,7 +179,7 @@ def get_all_products():
         logger.error(f"Traceback: {traceback.format_exc()}")
         return create_error_response("An unexpected error occurred", 500)
 
-@product_bp.route('/api/products/<int:product_id>', methods=['GET'])
+@product_bp.route('/<int:product_id>', methods=['GET'])
 def get_product(product_id):
     """Get single product by ID"""
     try:
@@ -202,7 +203,6 @@ def get_product(product_id):
 
 # Health check endpoints
 @product_bp.route('/health', methods=['GET'])
-@product_bp.route('/api/products/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
     try:
@@ -226,7 +226,7 @@ def health_check():
     except Exception as e:
         return create_error_response("Health check failed", 500)
 
-@product_bp.route('/api/database/debug', methods=['GET'])
+@product_bp.route('/database/debug', methods=['GET'])
 def database_debug():
     """Database debug information"""
     try:
@@ -256,7 +256,7 @@ def database_debug():
     except Exception as e:
         return jsonify({'error': str(e), 'timestamp': datetime.utcnow().isoformat()}), 500
 
-@product_bp.route('/api/database/init', methods=['POST'])
+@product_bp.route('/database/init', methods=['POST'])
 def initialize_database():
     """Initialize database tables and sample data"""
     try:

@@ -1,0 +1,46 @@
+# Render Blueprint for GenreBanned2 Service
+# Deployment configuration for Flask app with PostgreSQL
+
+services:
+  # Flask application - GenreBanned
+  - type: web
+    name: genrebanned
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: oregon
+    branch: east_onrender
+    healthCheckPath: /api/products/health
+    envVars:
+      - key: FLASK_APP
+        value: app
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: SCHEMA
+        value: genrebanned_schema
+      - key: DATABASE_URL
+        fromDatabase:
+          name: genrebanned-db
+          property: connectionString
+      - key: WTF_CSRF_ENABLED
+        value: true
+      - key: WTF_CSRF_TIME_LIMIT
+        value: 3600
+    buildCommand: |
+      echo "Building GenreBanned Flask app..."
+      pip install -r requirements.txt
+    preDeployCommand: |
+      echo "Running pre-deploy commands for GenreBanned..."
+      flask db upgrade
+      flask seed all
+      echo "Database seeded for GenreBanned!"
+
+# PostgreSQL Database for GenreBanned
+databases:
+  - name: genrebanned-db
+    plan: free
+    region: oregon
+    databaseName: genrebanned
+    user: genrebanned_user
