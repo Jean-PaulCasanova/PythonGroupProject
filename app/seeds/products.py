@@ -32,8 +32,11 @@ def seed_products():
     return [divine_album.id, cool_gadget.id]
 
 def undo_products():
-    if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.products RESTART IDENTITY CASCADE;")
+    # Check if we're using PostgreSQL (production) or SQLite (development)
+    dialect_name = db.engine.dialect.name
+    
+    if environment == "production" and dialect_name == 'postgresql':
+        db.session.execute(text(f"TRUNCATE table {SCHEMA}.products RESTART IDENTITY CASCADE;"))
     else:
         db.session.execute(text("DELETE FROM products"))
     db.session.commit()

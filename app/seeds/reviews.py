@@ -1,7 +1,8 @@
 from app.models import db, Review, User
 from datetime import datetime
 from random import randint, choice
-from app.models.db import environment
+from app.models.db import environment, SCHEMA
+from sqlalchemy.sql import text
 
 def seed_reviews(product_ids=None):
     if not product_ids or len(product_ids) < 2:
@@ -49,12 +50,18 @@ def seed_reviews(product_ids=None):
     db.session.commit()
 
 def undo_reviews():
-    if environment == 'production':
-        db.session.execute('TRUNCATE TABLE reviews RESTART IDENTITY CASCADE;')
+    # Check if we're using PostgreSQL (production) or SQLite (development)
+    dialect_name = db.engine.dialect.name
+    
+    if environment == 'production' and dialect_name == 'postgresql':
+        # Use PostgreSQL TRUNCATE with schema
+        db.session.execute(text(f"TRUNCATE table {SCHEMA}.reviews RESTART IDENTITY CASCADE;"))
     else:
-        db.session.execute('DELETE FROM reviews')
+        # Use DELETE for SQLite or fallback
+        db.session.execute(text("DELETE FROM reviews"))
         try:
-            db.session.execute('DELETE FROM sqlite_sequence WHERE name="reviews"')
+            # Reset SQLite sequence if it exists
+            db.session.execute(text('DELETE FROM sqlite_sequence WHERE name="reviews"'))
         except Exception:
             # sqlite_sequence may not exist, so just ignore this error
             pass

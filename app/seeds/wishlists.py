@@ -1,5 +1,6 @@
-from app.models import db, Wishlist, Product, User
+from app.models import db, Wishlist, Product, User, environment, SCHEMA
 from datetime import datetime
+from sqlalchemy.sql import text
 
 def seed_wishlists():
     # Get existing users and products to ensure valid foreign keys
@@ -20,5 +21,11 @@ def seed_wishlists():
     db.session.commit()
 
 def undo_wishlists():
-    db.session.execute("DELETE FROM wish_list")
+    # Check if we're using PostgreSQL (production) or SQLite (development)
+    dialect_name = db.engine.dialect.name
+    
+    if environment == "production" and dialect_name == 'postgresql':
+        db.session.execute(text(f"TRUNCATE table {SCHEMA}.wish_list RESTART IDENTITY CASCADE;"))
+    else:
+        db.session.execute(text("DELETE FROM wish_list"))
     db.session.commit()
