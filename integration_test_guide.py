@@ -89,7 +89,7 @@ def run_tests() -> Dict[str, bool]:
     print("\n🧪 RUNNING API TESTS...")
     
     # Test configurations
-    local_base = "http://localhost:3967"
+    local_base = "http://localhost:5000"
     render_base = "https://genrebanned.onrender.com"
     
     endpoints = [
