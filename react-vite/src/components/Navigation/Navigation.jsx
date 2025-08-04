@@ -82,6 +82,9 @@ function Navigation() {
 
       {sessionUser && (
         <>
+          <li className="all-products-page">
+            <NavLink to="/products" activeClassName="active">Shop Products</NavLink>
+          </li>
           <li className="create-product-link">
             <NavLink to="/products/new">Create Product</NavLink>
           </li>
